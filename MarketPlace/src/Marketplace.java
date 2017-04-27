@@ -12,6 +12,10 @@ public class Marketplace {
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
 		test(); //test method non-static
+		
+		//Just testing to see what happens when I make a change
+		test();
+		//making another change
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
@@ -89,7 +93,7 @@ public class Marketplace {
 		//this.deleteUser(testBuyer.getUserID());
 		//this.getCurrentUsers().displayUsers();
 		//Item testItem = new Item((Seller) currentUsers.getUser("lhamman"), "testItem", "Home & Garden", 123.00, 10, "This is a test item");
-		this.getCurrentInventory().displayItems();
+		//this.getCurrentInventory().displayItems();
 		//this.deleteItem(testItem.getItemID());
 		//this.getCurrentInventory().displayItems();
 	}
