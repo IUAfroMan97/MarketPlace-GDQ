@@ -76,6 +76,8 @@ public class SellerDriver extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				 String inputValue = JOptionPane.showInputDialog(btnChangeUsername, "Input new username"); 
 				 System.out.println(inputValue);
+				 currentUser.changeUserName(inputValue);
+				 //revalidate();
 			}
 		});
 		btnChangeUsername.setBounds(224, 65, 149, 25);
@@ -95,17 +97,29 @@ public class SellerDriver extends JPanel{
 		overview.add(lblEmail);
 	
 		JButton btnChangeEmail = new JButton("Change E-mail");
+		btnChangeEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 String inputValue = JOptionPane.showInputDialog(btnChangeEmail, "Input new email"); 
+				 System.out.println(inputValue);
+				 currentUser.changeUserEmail(inputValue);
+				 //revalidate();
+			}
+		});
 		btnChangeEmail.setBounds(224, 103, 149, 25);
 		overview.add(btnChangeEmail);
 		
 		// password labels etc		
-		JButton btnPassword = new JButton("Change Password");
-		btnPassword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnChangePassword = new JButton("Change Password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 String inputValue = JOptionPane.showInputDialog(btnChangePassword, "Input new password"); 
+				 System.out.println(inputValue);
+				 currentUser.changeUserPassword(inputValue);
+				 //revalidate();
 			}
-		});
-		btnPassword.setBounds(224, 141, 149, 25);
-		overview.add(btnPassword);
+			});
+		btnChangePassword.setBounds(224, 141, 149, 25);
+		overview.add(btnChangePassword);
 		
 		// creating the password label (using * so it's """secure""")
 		String pwLabel = "Password: ";

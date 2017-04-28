@@ -138,9 +138,6 @@ public class Marketplace {
 	}
 	
 	public void test() {
-		Seller luke = (Seller) this.currentUsers.getUserWithUserName("lhamman");
-		System.out.println(luke.getPostHistory() == null);
-		
 		
 		
 	}
