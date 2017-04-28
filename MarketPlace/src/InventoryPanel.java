@@ -66,16 +66,6 @@ public class InventoryPanel extends JPanel{
 		run();
 
 	}
-
-	public JPanel drawInventory(ArrayList<Item> inv, JPanel panel){
-		for(Item i : inv){
-			ItemCard current = new ItemCard(i, currentUser, currentMarketplace);
-			panel.add(current);
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
-		return panel;
-	}
 	
 	public void run(){
 		
@@ -150,6 +140,8 @@ public class InventoryPanel extends JPanel{
 			} else {
 				for(Item element : inventory) {
 					if (element.getItemName().equalsIgnoreCase(searchBarText)) {
+						tempInv.add(element);
+					} else if (element.getItemID().equalsIgnoreCase(searchBarText)) {
 						tempInv.add(element);
 					}
 				}
