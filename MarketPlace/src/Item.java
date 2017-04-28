@@ -64,6 +64,28 @@ public class Item {
 			e.printStackTrace();
 		}		
 	}
+	
+	private void update() {
+		Connection con = null;
+		try {
+			con=Database.mycon();
+			
+			String query="UPDATE Items SET itemPrice = ?, itemQuantity = ?, itemDescription = ? WHERE itemID = ? ";
+			PreparedStatement st=con.prepareStatement(query);
+			
+			st.setDouble(1, this.itemPrice);
+			st.setInt(2, this.itemQuantity);
+			st.setString(3, this.itemDescription);
+			st.setString(4, this.getItemID());
+			
+			st.executeUpdate();
+			con.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public String getItemName() {
 		return itemName;
@@ -86,7 +108,10 @@ public class Item {
 	}
 
 	public void setItemDescription(String itemDescription) {
+		this.itemPrice = this.getItemPrice();
+		this.itemQuantity = this.getItemQuantity();
 		this.itemDescription = itemDescription;
+		update();
 	}
 
 	public double getItemPrice() {
@@ -95,6 +120,9 @@ public class Item {
 
 	public void setItemPrice(double itemPrice) {
 		this.itemPrice = itemPrice;
+		this.itemQuantity = this.getItemQuantity();
+		this.itemDescription = this.getItemDescription();
+		update();
 	}
 
 	public int getItemQuantity() {
@@ -102,7 +130,10 @@ public class Item {
 	}
 
 	public void setItemQuantity(int itemQuantity) {
+		this.itemPrice = this.getItemPrice();
 		this.itemQuantity = itemQuantity;
+		this.itemDescription = this.getItemDescription();
+		update();
 	}
 
 	public String getSellerID() {

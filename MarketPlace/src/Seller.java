@@ -126,7 +126,7 @@ public class Seller extends AbstractUser {
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
 		this.userEmail = this.getUserEmail();
-		this.userBalance -= payment;
+		this.userBalance += payment;
 		update();
 	}
 }

@@ -78,15 +78,6 @@ public class Buyer extends AbstractUser{
 		}
 	}
 
-	private boolean buyItem(){
-		// TODO: 
-		// issues a call to marketplace to initialize a transaction
-		// returns false if user has insufficient funds
-
-		return false;
-
-	}
-
 	@Override
 	void changeUserName(String newUserName) { 
 		// TODO: change userName
@@ -108,7 +99,6 @@ public class Buyer extends AbstractUser{
 		update();
 	}
 
-
 	@Override
 	void changeUserEmail(String newUserEmail) {
 		// TODO change email
@@ -118,7 +108,6 @@ public class Buyer extends AbstractUser{
 		this.userBalance = this.getUserBalance();
 		update();
 	}
-
 
 	@Override
 	void alterBalance(double payment) {

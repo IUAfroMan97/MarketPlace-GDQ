@@ -87,6 +87,11 @@ public class Marketplace {
 	
 	public void test() {
 		
+		this.getCurrentInventory().displayItems();
+		
+		this.getCurrentInventory().getItemWithItemID("4a4abe").setItemQuantity(5);
+		
+		this.getCurrentInventory().displayItems();
 		
 	}
 
