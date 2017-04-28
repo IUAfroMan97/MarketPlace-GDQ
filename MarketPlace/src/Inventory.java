@@ -28,15 +28,6 @@ public class Inventory {
 		}
 		return false;
 	}
-	
-	public Item getItemWithItemID(String itemID) {
-		for(Item element : inventory) {
-			if(element.getItemID().equalsIgnoreCase(itemID)) {
-				return element;
-			}
-		}
-		return null;
-	}
 
 	public void push(Item target){
 		// TODO
@@ -61,8 +52,6 @@ public class Inventory {
 	public void pull(){
 		// TODO
 		// grabs and refreshes info from database
-		
-		this.inventory.clear();
 
 		Connection con = null;
 		try{

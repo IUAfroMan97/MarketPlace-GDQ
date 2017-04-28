@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Seller extends AbstractUser {
 
 	// history of the seller's activity
-	public ArrayList<Item> postHistory; 
-	public ArrayList<Item> soldHistory;
+	private ArrayList<Item> postHistory; 
+	private ArrayList<Item> soldHistory;
 	
 	private String userName;
 	private String userPassword;
@@ -18,8 +18,8 @@ public class Seller extends AbstractUser {
 	
 		super(userName, userPassword, "Seller", userEmail, userBalance);
 		
-		postHistory = new ArrayList<Item>();
-		soldHistory = new ArrayList<Item>();
+		this.postHistory = new ArrayList<Item>();
+		this.soldHistory = new ArrayList<Item>();
 		
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
@@ -31,6 +31,9 @@ public class Seller extends AbstractUser {
 	
 	public Seller(String userID, String userName, String userPassword, String userEmail, double userBalance) {
 		super(userID, userName, userPassword, "Seller", userEmail, userBalance);
+		
+		this.postHistory = new ArrayList<Item>();
+		this.soldHistory = new ArrayList<Item>();
 	}
 	
 	private void push(){
@@ -78,6 +81,16 @@ public class Seller extends AbstractUser {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public ArrayList<Item> getPostHistory(){
+		return this.postHistory;
+	}
+	
+	public ArrayList<Item> getSoldHistory(){
+		return this.soldHistory;
+	}
+	
 	
 	private void createItem(){
 		

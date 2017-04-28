@@ -67,8 +67,11 @@ public class ItemCard extends JPanel{
 					// order is actually the number they select. String because that's the way dialog box works
 					String order = (String) JOptionPane.showInputDialog(btnPurchase, "Select quantity desired", "Order Confirmation", JOptionPane.QUESTION_MESSAGE, (Icon) null, quantityList, quantityList[0]);
 
-					// proof of concept. will eventually put in a call to currentMarketplace.beginTransaction()
-					System.out.println(currentUser.getUserName() + " bought " + order + " of " + currentItem.getItemName());
+					
+					// able to cast to buyer because this will only ever appear for buyers
+					// starts the system of transactions
+					currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
+
 				}
 			});
 			btnPurchase.setBounds(595, 60, 100, 25);

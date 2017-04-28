@@ -113,7 +113,7 @@ public class UserRegistration extends JPanel{
         			
         			// create the user, show completion dialog
         			currentMarketplace.createUser(username, password, userType, email, balance);
-        			JOptionPane.showMessageDialog(btnRegister, "Success", "You successfully created user " + username, JOptionPane.INFORMATION_MESSAGE);
+        			JOptionPane.showMessageDialog(btnRegister, "You successfully created user " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
         			
         			// clearing everything
         			txtUsername.setText("");

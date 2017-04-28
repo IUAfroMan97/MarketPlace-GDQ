@@ -3,6 +3,8 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 public class Transaction implements ActionListener{
+	
+	public Item currentItem; // holds a copy of the item here in transaction
 
 	public String transID;
 	public String buyerID;
@@ -13,10 +15,13 @@ public class Transaction implements ActionListener{
 	
 	private Timer shippingTimer;
 	
-	public Transaction(String buyerID, String sellerID, String itemID, int quantity){
+	public Transaction(Item givenItem, String buyerID, String sellerID, int quantity){
+		
+		this.currentItem = givenItem;
+		
 		this.buyerID = buyerID;
 		this.sellerID = sellerID;
-		this.itemID = itemID;
+		this.itemID = currentItem.getItemID();
 		this.quantity = quantity;
 		
 		// transID = IIDBIDSIDQ
@@ -31,10 +36,24 @@ public class Transaction implements ActionListener{
 		
 	}
 	
+	public String toString(){
+		String result = "";
+		
+		result += "Trans ID: " + transID;
+		result += ", Buyer: " + buyerID;
+		result += ", Seller: " + sellerID;
+		result += ", Item " + itemID;
+		result += "*" + quantity;
+		result += ", Shipped: " + shipped;
+		
+		return result;
+	}
+	
 	public void actionPerformed(ActionEvent evt) {
 		
 		shipped = true;
 		System.out.println("Shipped: " + shipped);
+		shippingTimer.stop();
 	}
 	
 

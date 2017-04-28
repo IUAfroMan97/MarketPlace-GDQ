@@ -32,6 +32,7 @@ public class InventoryPanel extends JPanel{
 		// drawing the inventory itself
 
 		invClass = currentMarketplace.getCurrentInventory();
+		invClass.pull();
 		inv = filterItems(filterText, invClass.inventory);
 
 		// adding the search bar
@@ -88,7 +89,6 @@ public class InventoryPanel extends JPanel{
 		
 	
 		invClass = currentMarketplace.getCurrentInventory();
-		invClass.pull();
 		inv = filterItems(filterText, invClass.inventory);
 		
 		for(Item i : inv){

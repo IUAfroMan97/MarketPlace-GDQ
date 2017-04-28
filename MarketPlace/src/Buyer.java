@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Buyer extends AbstractUser{
 
 	// history of the buyer's transactions
-	public ArrayList<String> purchased;
+	public ArrayList<Item> purchased;
 	
 	
 	private String userName;
@@ -19,7 +19,7 @@ public class Buyer extends AbstractUser{
 
 		super(userName, userPassword, "Buyer", userEmail, userBalance);
 
-		this.purchased = new ArrayList<String>();
+		this.purchased = new ArrayList<Item>();
 		
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
@@ -78,6 +78,7 @@ public class Buyer extends AbstractUser{
 		}
 	}
 
+
 	@Override
 	void changeUserName(String newUserName) { 
 		// TODO: change userName
@@ -99,6 +100,7 @@ public class Buyer extends AbstractUser{
 		update();
 	}
 
+
 	@Override
 	void changeUserEmail(String newUserEmail) {
 		// TODO change email
@@ -108,6 +110,7 @@ public class Buyer extends AbstractUser{
 		this.userBalance = this.getUserBalance();
 		update();
 	}
+
 
 	@Override
 	void alterBalance(double payment) {

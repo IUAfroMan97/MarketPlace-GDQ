@@ -72,6 +72,12 @@ public class SellerDriver extends JPanel{
 		overview.add(lblUsername);
 		
 		JButton btnChangeUsername = new JButton("Change Username");
+		btnChangeUsername.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 String inputValue = JOptionPane.showInputDialog(btnChangeUsername, "Input new username"); 
+				 System.out.println(inputValue);
+			}
+		});
 		btnChangeUsername.setBounds(224, 65, 149, 25);
 		overview.add(btnChangeUsername);
 		
@@ -132,28 +138,28 @@ public class SellerDriver extends JPanel{
 		lblItemName.setBounds(12, 13, 89, 16);
 		newItemTab.add(lblItemName);
 		
-		JTextField itemNameTxt = new JTextField();
-		itemNameTxt.setBounds(107, 10, 200, 22);
-		newItemTab.add(itemNameTxt);
+		JTextField txtItemName = new JTextField();
+		txtItemName.setBounds(107, 10, 200, 22);
+		newItemTab.add(txtItemName);
 		
 		
 		JLabel lblPrice = new JLabel("Price (USD): ");
 		lblPrice.setBounds(12, 55, 89, 16);
 		newItemTab.add(lblPrice);
 		
-		JTextField PriceTxt = new JTextField();
-		PriceTxt.setBounds(107, 52, 99, 22);
-		newItemTab.add(PriceTxt);
-		PriceTxt.setColumns(10);
+		JTextField txtPrice = new JTextField();
+		txtPrice.setBounds(107, 52, 99, 22);
+		newItemTab.add(txtPrice);
+		txtPrice.setColumns(10);
 		
 		JLabel lblQuantity = new JLabel("Quantity: ");
 		lblQuantity.setBounds(12, 100, 56, 16);
 		newItemTab.add(lblQuantity);
 		
-		JTextField quantityTxt = new JTextField();
-		quantityTxt.setBounds(107, 97, 99, 22);
-		newItemTab.add(quantityTxt);
-		quantityTxt.setColumns(10);
+		JTextField txtQuantity = new JTextField();
+		txtQuantity.setBounds(107, 97, 99, 22);
+		newItemTab.add(txtQuantity);
+		txtQuantity.setColumns(10);
 		
 				
 		JComboBox comboBox = new JComboBox();
@@ -165,31 +171,43 @@ public class SellerDriver extends JPanel{
 		lblItemDescription.setBounds(12, 176, 122, 16);
 		newItemTab.add(lblItemDescription);
 		
-		JTextField descriptionTxt = new JTextField("Limit 140 Characters");
-		descriptionTxt.setHorizontalAlignment(SwingConstants.LEFT);
-		descriptionTxt.setBounds(12, 205, 303, 138);
-		newItemTab.add(descriptionTxt);
-		descriptionTxt.setColumns(10);
+		JTextField txtDescription = new JTextField("Limit 140 Characters");
+		txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		txtDescription.setBounds(12, 205, 303, 138);
+		newItemTab.add(txtDescription);
+		txtDescription.setColumns(10);
 		
 		JButton btnCreateListing = new JButton("Create listing");
 		btnCreateListing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Seller sellerID = inputUser;
+				Seller seller = currentUser;
 				
-				String itemName = itemNameTxt.getText();
+				String itemName = txtItemName.getText();
 				String itemCategory = comboBox.getSelectedItem().toString();
-				double itemPrice = Double.parseDouble(PriceTxt.getText());
-				int itemQuantity = Integer.parseInt(quantityTxt.getText());
-				String itemDescription = descriptionTxt.getText();
+				double itemPrice = Double.parseDouble(txtPrice.getText());
+				int itemQuantity = Integer.parseInt(txtQuantity.getText());
+				String itemDescription = txtDescription.getText();
+				
+				// JOptionPane.showMessageDialog(component, "message", "header", JOptionPane.ERROR_MESSAGE); 
+				
 				if(itemCategory == "Select a category:"){
-					System.out.println("wrong!");
+					JOptionPane.showMessageDialog(btnCreateListing, "Select a type!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(itemName.isEmpty() || itemDescription.isEmpty() || itemPrice <= 0 || itemQuantity <= 0){
-					System.out.println("wrong!");
-				}
+					JOptionPane.showMessageDialog(btnCreateListing, "Fill out every field", "Error", JOptionPane.ERROR_MESSAGE);				}
 				else{
-					currentMarketplace.createItem(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+					currentMarketplace.createItem(seller, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+					
+					// prints a success message and clears all values
+					JOptionPane.showMessageDialog(btnCreateListing, "Your item has been posted!", "Success", JOptionPane.INFORMATION_MESSAGE);
+					
+					txtItemName.setText("");
+					txtPrice.setText("");
+					txtQuantity.setText("");
+					txtDescription.setText("");
+					comboBox.setSelectedIndex(0);
+					
 				}
 				
 				

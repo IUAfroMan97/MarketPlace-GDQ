@@ -12,6 +12,8 @@ public class Marketplace {
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
 		
+		
+		
 		test();	
 	}
 
@@ -45,7 +47,22 @@ public class Marketplace {
 
 	public void createItem(Seller sellerID, String itemName, String itemCategory, double itemPrice, int itemQuantity, String itemDescription) {
 		//completed Jacob Good
-		new Item(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+		Item i = new Item(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+		
+		// adding the given item to the seller's postHistory
+		for(AbstractUser element : currentUsers.usersList) {
+			if(element.getUserID().equalsIgnoreCase(sellerID.getUserID())) {
+				Seller tempSeller = (Seller) currentUsers.getUserWithUserID(element.getUserID()); 
+				
+				
+				
+				System.out.println(tempSeller.getPostHistory() == null);
+				
+				ArrayList<Item> tempHistory = tempSeller.getPostHistory();
+				
+				tempHistory.add(i);
+			}
+		}
 	}
 	
 	public void deleteItem(String itemID) {
@@ -75,23 +92,56 @@ public class Marketplace {
 	}
 	
 
-	public void beginTransaction(){
+	public void beginTransaction(Buyer buyer, String sellerID, Item givenItem, int quantity){
 		//called by itemCard
 		
-
+		//public Transaction(String buyerID, String sellerID, String itemID, int quantity){
+		String buyerID = buyer.getUserID();
+		
+		Transaction newTrans = new Transaction(givenItem, buyerID, sellerID, quantity);
+		System.out.println(newTrans.toString());
+		
 	}
 
-	public void endTransaction(){
-
+	public void endTransaction(Transaction trans){
+		// using the given transaction, gets all the necessary information
+		
+		// altering user balances
+		String sellerID = trans.sellerID;
+		String buyerID = trans.buyerID;
+		
+		Seller thisSeller = (Seller) currentUsers.getUserWithUserID(sellerID);
+		Buyer thisBuyer = (Buyer) currentUsers.getUserWithUserID(buyerID);
+		
+		Item thisItem = trans.currentItem;
+		
+		int totalCost = ((int) thisItem.getItemPrice()) * trans.quantity;
+		
+		// takes money from the buyer, gives to seller
+		thisBuyer.alterBalance(totalCost);
+		thisSeller.alterBalance(totalCost);
+		
+		
+		// now changing item quantity
+		thisItem.setItemQuantity(thisItem.getItemQuantity() - trans.quantity);
+		
+		// adding to the seller's sold history and buyers history
+		
+	//	thisSeller.soldHistory.add(thisItem);
+		thisBuyer.purchased.add(thisItem);
+		
+		// PUSHING THESE CHANGES TO THE DATABASE
+		
+//		currentUsers.push(thisSeller);
+//		currentUsers.push(thisBuyer);
+//		currentInventory.push(thisItem);
 	}
 	
 	public void test() {
+		Seller luke = (Seller) this.currentUsers.getUserWithUserName("lhamman");
+		System.out.println(luke.getPostHistory() == null);
 		
-		this.getCurrentInventory().displayItems();
 		
-		this.getCurrentInventory().getItemWithItemID("4a4abe").setItemQuantity(5);
-		
-		this.getCurrentInventory().displayItems();
 		
 	}
 
@@ -108,10 +158,8 @@ public class Marketplace {
 		Marketplace testMarketplace = new Marketplace();
 
 		//Already in the database
-		//Buyer jacob = new Buyer("anotherBuyer", "738291", "buyme@gmail.edu" ,6666.66);
-		//Seller lukas = new Seller("lhamman", "54321", "lhamman@iu.edu", 10000.00);
-		//Administrator justin = new Administrator("jdrinkall", "15243", "jdrinkall@iu.edu");
-		//Administrator nick = new Administrator("ndquigle", "56789", "ndquigle@iu.edu");
+	
+		
 	}
 
 
