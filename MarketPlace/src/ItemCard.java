@@ -91,23 +91,65 @@ public class ItemCard extends JPanel{
 		// if the user isn't a buyer, he's a seller or admin. 
 		// this means he can see and change any part of these items
 		else {
-			JButton btnChangeName = new JButton("Change Name");
-			btnChangeName.setBounds(600, 2, 150, 23);
-			add(btnChangeName);
 
 			JButton btnChangePrice = new JButton("Change Price");
+			btnChangePrice.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 String inputValue = JOptionPane.showInputDialog(btnChangePrice, "Input new Item Price"); 
+					 System.out.println(inputValue);
+					 if (inputValue != null && inputValue != "") {
+						 currentItem.setItemPrice(Double.parseDouble(inputValue));
+					 }
+					 //revalidate();
+				}
+			});
 			btnChangePrice.setBounds(600, 26, 150, 23);
 			add(btnChangePrice);
 
 			JButton btnChangeQuantity = new JButton("Change Quantity");
+			btnChangeQuantity.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 String inputValue = JOptionPane.showInputDialog(btnChangeQuantity, "Input new Item Quantity"); 
+					 System.out.println(inputValue);
+					 if (inputValue != null && inputValue != "") {
+						 currentItem.setItemQuantity(Integer.parseInt(inputValue));
+					 }
+					 //revalidate();
+				}
+			});
 			btnChangeQuantity.setBounds(600, 51, 150, 23);
 			add(btnChangeQuantity);
 
 			JButton btnChangeDescription = new JButton("Change Description");
+			btnChangeDescription.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 String inputValue = JOptionPane.showInputDialog(btnChangeDescription, "Input new Item Description"); 
+					 System.out.println(inputValue);
+					 if (inputValue != null && inputValue != "") {
+						 currentItem.setItemDescription(inputValue);
+					 }
+					 //revalidate();
+				}
+			});
 			btnChangeDescription.setBounds(600, 76, 150, 23);
 			add(btnChangeDescription);
 			
+			
+			
+			
+			//////fix this nick!!!!!!!!
+			
 			JButton btnDeleteItem = new JButton("Delete Item");
+			btnDeleteItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 String inputValue = JOptionPane.showInputDialog(btnDeleteItem, "Input new Item Description"); 
+					 System.out.println(inputValue);
+					 if (inputValue != null && inputValue != "") {
+						 currentMarketplace.deleteItem(currentItem.getItemID());
+					 }
+					 //revalidate();
+				}
+			});
 			btnDeleteItem.setBounds(475, 76, 100, 23);
 			add(btnDeleteItem);
 

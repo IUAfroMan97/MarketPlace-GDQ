@@ -150,7 +150,7 @@ public class Marketplace {
 		//this.getCurrentInventory().inventory.get(0).setItemQuantity(11);
 		
 		//test if the balance of a user changes in the database
-		//this.getCurrentUsers().getUserWithUserName("jacgood").alterBalance(- 10000);
+		this.getCurrentUsers().getUserWithUserName("jacgood").alterBalance(- 10000);
 		
 		
 		
