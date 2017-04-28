@@ -50,28 +50,36 @@ public class ItemCard extends JPanel{
 			
 			JButton btnPurchase = new JButton("Purchase");
 			btnPurchase.addActionListener(new ActionListener() {
-
+				
+				
+				
 				// if pressed, we go into the order confirmation
 				public void actionPerformed(ActionEvent e) {
 
 					// will fill out the drop down list
 					// unnecessary but looks cool
 					int quantity = currentItem.getItemQuantity();
-
-					String[] quantityList = new String[quantity];
-					for(int i = 1; i <= quantity; i++){
-						quantityList[i-1] = "" + i;
+					if(quantity <= 0 || quantity*currentItem.getItemPrice() > currentUser.getUserBalance()){
+						//dialog box
+						
 					}
+					else{
+						String[] quantityList = new String[quantity];
+						for(int i = 1; i <= quantity; i++){
+							quantityList[i-1] = "" + i;
+						}
 
-					// this pops out a dialog box asking user to select value they want
-					// order is actually the number they select. String because that's the way dialog box works
-					String order = (String) JOptionPane.showInputDialog(btnPurchase, "Select quantity desired", "Order Confirmation", JOptionPane.QUESTION_MESSAGE, (Icon) null, quantityList, quantityList[0]);
+						// this pops out a dialog box asking user to select value they want
+						// order is actually the number they select. String because that's the way dialog box works
+						String order = (String) JOptionPane.showInputDialog(btnPurchase, "Select quantity desired", "Order Confirmation", JOptionPane.QUESTION_MESSAGE, (Icon) null, quantityList, quantityList[0]);
+						quantity = Integer.parseInt(order);
 
-					
-					// able to cast to buyer because this will only ever appear for buyers
-					// starts the system of transactions
-					currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
 
+
+						// able to cast to buyer because this will only ever appear for buyers
+						// starts the system of transactions
+						currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
+					}
 				}
 			});
 			btnPurchase.setBounds(595, 60, 100, 25);

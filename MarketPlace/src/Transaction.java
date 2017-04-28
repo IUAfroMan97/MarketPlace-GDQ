@@ -12,10 +12,11 @@ public class Transaction implements ActionListener{
 	public String itemID;
 	public int quantity;
 	public boolean shipped;
+	private Marketplace currentMarketplace;
 	
 	private Timer shippingTimer;
 	
-	public Transaction(Item givenItem, String buyerID, String sellerID, int quantity){
+	public Transaction(Item givenItem, String buyerID, String sellerID, int quantity, Marketplace mk){
 		
 		this.currentItem = givenItem;
 		
@@ -23,6 +24,7 @@ public class Transaction implements ActionListener{
 		this.sellerID = sellerID;
 		this.itemID = currentItem.getItemID();
 		this.quantity = quantity;
+		this.currentMarketplace = mk;
 		
 		// transID = IIDBIDSIDQ
 		transID = itemID.substring(0, 3);
@@ -54,6 +56,8 @@ public class Transaction implements ActionListener{
 		shipped = true;
 		System.out.println("Shipped: " + shipped);
 		shippingTimer.stop();
+		
+		currentMarketplace.endTransaction(this);
 	}
 	
 

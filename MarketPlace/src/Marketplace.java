@@ -98,13 +98,15 @@ public class Marketplace {
 		//public Transaction(String buyerID, String sellerID, String itemID, int quantity){
 		String buyerID = buyer.getUserID();
 		
-		Transaction newTrans = new Transaction(givenItem, buyerID, sellerID, quantity);
+		Transaction newTrans = new Transaction(givenItem, buyerID, sellerID, quantity, this);
 		System.out.println(newTrans.toString());
 		
 	}
 
 	public void endTransaction(Transaction trans){
 		// using the given transaction, gets all the necessary information
+		
+		System.out.println(trans.toString());
 		
 		// altering user balances
 		String sellerID = trans.sellerID;
@@ -125,19 +127,34 @@ public class Marketplace {
 		// now changing item quantity
 		thisItem.setItemQuantity(thisItem.getItemQuantity() - trans.quantity);
 		
+		System.out.println(thisBuyer == null);
+		System.out.println(thisSeller == null);
+		System.out.println(trans.toString());
+		
 		// adding to the seller's sold history and buyers history
 		
-	//	thisSeller.soldHistory.add(thisItem);
-		thisBuyer.purchased.add(thisItem);
+		thisSeller.getSoldHistory().add(thisItem);
+		thisBuyer.getPurchasedHistory().add(thisItem);
 		
 		// PUSHING THESE CHANGES TO THE DATABASE
 		
-//		currentUsers.push(thisSeller);
+//		currentUsers.update(thisSeller);
 //		currentUsers.push(thisBuyer);
 //		currentInventory.push(thisItem);
+		currentUsers.pull();
+		currentInventory.pull();
 	}
 	
 	public void test() {
+		
+		//test if the quantity after being purchased will change in the database
+		//.setItemQuantity works!
+		//this.getCurrentInventory().inventory.get(0).setItemQuantity(11);
+		
+		//test if the balance of a user changes in the database
+		//this.getCurrentUsers().getUserWithUserName("jacgood").alterBalance(- 10000);
+		
+		
 		
 		
 	}

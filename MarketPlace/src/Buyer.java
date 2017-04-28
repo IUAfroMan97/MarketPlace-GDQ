@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Buyer extends AbstractUser{
 
 	// history of the buyer's transactions
-	public ArrayList<Item> purchased;
+	private ArrayList<Item> purchased;
 	
 	
 	private String userName;
@@ -31,6 +31,8 @@ public class Buyer extends AbstractUser{
 
 	public Buyer(String userID, String userName, String userPassword, String userEmail, double userBalance) {
 		super(userID, userName, userPassword, "Buyer", userEmail, userBalance);
+		
+		this.purchased = new ArrayList<Item>();
 	}
 
 	private void push() {
@@ -77,6 +79,10 @@ public class Buyer extends AbstractUser{
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<Item> getPurchasedHistory() {
+		return this.purchased;
+	}
 
 
 	@Override
@@ -118,7 +124,7 @@ public class Buyer extends AbstractUser{
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
 		this.userEmail = this.getUserEmail();
-		this.userBalance -= payment;
+		this.userBalance = this.getUserBalance() - payment;
 		update();
 	}
 }
