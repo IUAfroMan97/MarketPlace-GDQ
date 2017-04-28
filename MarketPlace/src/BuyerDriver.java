@@ -118,40 +118,8 @@ public class BuyerDriver extends JPanel{
 		lblPassword.setBounds(12, 145, 200, 16);
 		overview.add(lblPassword);
 		
-		
-		// --------- Inventory marketplace -----------
-		JPanel viewer = new JPanel();
-		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
-		
-		JPanel inventoryPanel = new JPanel();
-		inventoryPanel.setLayout(null);
+		InventoryPanel inventoryPanel = new InventoryPanel(currentMarketplace, currentUser);
 		tabbedPane.add("Inventory", inventoryPanel);
-		
-		// gets the current inventory list 
-		Inventory invClass = currentMarketplace.getCurrentInventory();
-		ArrayList<Item> inv = invClass.inventory;
-		
-		// this one is weird
-		// so every item card takes up 100 space. by multiplying inventory size by 100, we get the right height
-		int viewHeight = 100 * inv.size();
-		viewer.setBounds(0, 0, 860, viewHeight);
-		
-		
-		for(Item i : inv){
-			ItemCard current = new ItemCard(i, currentUser, currentMarketplace);
-			viewer.add(current);
-			viewer.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-		
-		JScrollPane scrollPane = new JScrollPane(viewer);
-		
-		scrollPane.setSize(860, 500);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
-		inventoryPanel.add(scrollPane);
-		
-		
 	}
 
 }

@@ -11,11 +11,20 @@ public class Marketplace {
 		transList = new ArrayList<Transaction>();
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
-		test(); //test method non-static
 		
-		//Just testing to see what happens when I make a change
 		test();
-		//making another change
+		
+		
+		
+		//nick is a bitch because he cant login into github
+		
+		test();
+		
+		
+		
+		
+		
+		
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
@@ -79,6 +88,8 @@ public class Marketplace {
 	
 
 	public void beginTransaction(){
+		//called by itemCard
+		
 
 	}
 
@@ -96,6 +107,16 @@ public class Marketplace {
 		//this.getCurrentInventory().displayItems();
 		//this.deleteItem(testItem.getItemID());
 		//this.getCurrentInventory().displayItems();
+		
+		System.out.println("Items");
+		for(Item element : this.getCurrentInventory().inventory) {
+			System.out.println(element.getSellerID());
+		}
+		System.out.println("Users");
+		for(AbstractUser element : this.getCurrentUsers().usersList) {
+			System.out.println(element.getUserID());
+		}
+		
 	}
 
 	public static void main(String[] args) {

@@ -83,6 +83,8 @@ public class Inventory {
 				Seller currentSeller = null;
 				for(AbstractUser element : currentUsers.usersList) {
 					if(element.getUserType().equalsIgnoreCase("Seller")) {
+						
+						System.out.println(element.getUserID());
 						if (element.getUserID().equalsIgnoreCase(sellerID)) {
 							currentSeller = (Seller) element;
 						}
