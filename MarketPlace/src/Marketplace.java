@@ -12,19 +12,7 @@ public class Marketplace {
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
 		
-		test();
-		
-		
-		
-		//nick is a bitch because he cant login into github
-		
-		test();
-		
-		
-		// jacob is being hard on me and honestly I'm feeling kindof attacked right now
-		
-		
-		
+		test();	
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
