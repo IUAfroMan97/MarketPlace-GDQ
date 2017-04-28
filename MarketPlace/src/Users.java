@@ -32,13 +32,13 @@ public class Users {
 	}
 	
 	public void displayUsers() {
-		pull(); //refresh the current users in the lists
+		pull(); //refresh the usersList
 		for (AbstractUser element : usersList) { //display all of the users in the targetList
 			System.out.println(element.toString());
 		}
 	}
 	
-	public AbstractUser getUser(String userName) {
+	public AbstractUser getUserWithUserName(String userName) {
 		for(AbstractUser element : usersList) {
 			if(element.getUserName().equalsIgnoreCase(userName)) {
 				return element;
@@ -46,10 +46,22 @@ public class Users {
 		}
 		return null;
 	}
+	
+	public AbstractUser getUserWithUserID(String userID) {
+		for(AbstractUser element : usersList) {
+			if(element.getUserID().equalsIgnoreCase(userID)) {
+				return element;
+			}
+		}
+		return null;
+	}
 
-	public void pull(){
+
+	public void pull() {
 		// pulls from database
 		// in turn updates the whole program (?)
+		
+		usersList.clear(); //always start with an empty list
 
 		Connection con = null;
 		try{
@@ -84,7 +96,7 @@ public class Users {
 					} else {
 						usersList.add(new Administrator(uniqueID, username, password, email, balance));
 					}
-				}
+				}	
 			}
 			con.close();
 		} catch(Exception e) {

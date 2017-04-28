@@ -122,8 +122,8 @@ public class LoginPanel extends JPanel{
                 String tempPW = buyerPasswordField.getText();
 
                 if(currentUsers.isUserNameInList(tempUserName, currentUsers.usersList)) {
-                    if(currentUsers.getUser(tempUserName).getUserPassword().equalsIgnoreCase(tempPW)) {
-                        tempUser = currentUsers.getUser(tempUserName);
+                    if(currentUsers.getUserWithUserName(tempUserName).getUserPassword().equalsIgnoreCase(tempPW)) {
+                        tempUser = currentUsers.getUserWithUserName(tempUserName);
                         if(tempUser.getUserType().equalsIgnoreCase("Buyer")) {
                             buy = (Buyer) tempUser;
                         } else {
@@ -220,8 +220,8 @@ public class LoginPanel extends JPanel{
                 String tempSellPW = SellPasswordField.getText();
 
                 if(currentUsers.isUserNameInList(tempSellUserName, currentUsers.usersList)) {
-                    if(currentUsers.getUser(tempSellUserName).getUserPassword().equalsIgnoreCase(tempSellPW)) {
-                        tempUser = currentUsers.getUser(tempSellUserName);
+                    if(currentUsers.getUserWithUserName(tempSellUserName).getUserPassword().equalsIgnoreCase(tempSellPW)) {
+                        tempUser = currentUsers.getUserWithUserName(tempSellUserName);
                         if(tempUser.getUserType().equalsIgnoreCase("Seller")) {
                             sell = (Seller) tempUser;
                         } else {

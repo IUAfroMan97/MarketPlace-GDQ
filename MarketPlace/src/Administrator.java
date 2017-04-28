@@ -3,12 +3,22 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class Administrator extends AbstractUser{
+	
+	private String userName;
+	private String userPassword;
+	private String userEmail;
+	private double userBalance;
 
 	public Administrator(String userName, String userPassword, String userEmail){
 		
 		// administrator will always be of type admin and balance 0
 		
 		super(userName, userPassword, "Administrator", userEmail, 0);
+		
+		this.userName = this.getUserName();
+		this.userPassword = this.getUserPassword();
+		this.userEmail = this.getUserEmail();
+		this.userBalance = this.getUserBalance();
 		
 		push();
 		
@@ -41,6 +51,28 @@ public class Administrator extends AbstractUser{
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void update() {
+		Connection con = null;
+		try {
+			con=Database.mycon();
+			
+			String query="UPDATE Users SET userName = ?, userPassword = ?, userEmail = ?, userBalance = ? WHERE userID = ? ";
+			PreparedStatement st=con.prepareStatement(query);
+			
+			st.setString(1, this.userName);
+			st.setString(2, this.userPassword);
+			st.setString(3, this.userEmail);
+			st.setDouble(4, this.userBalance);
+			st.setString(5, this.getUserID());
+			
+			st.executeUpdate();
+			con.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public ArrayList<String> viewPurchaseHistory(Buyer target){
@@ -77,9 +109,13 @@ public class Administrator extends AbstractUser{
 	
 	
 	@Override
-	void changeUserName(String newUserName) {
-		// TODO able to change own username
-		
+	void changeUserName(String newUserName) { 
+		// TODO: change userName
+		this.userName = newUserName;
+		this.userPassword = this.getUserPassword();
+		this.userEmail = this.getUserEmail();
+		this.userBalance = this.getUserBalance();
+		update();
 	}
 	
 	void changeUserName(AbstractUser target, String newUserName){
@@ -91,8 +127,12 @@ public class Administrator extends AbstractUser{
 	
 	@Override
 	void changeUserPassword(String newUserPassword) {
-		// TODO change own password
-		
+		// TODO change userName
+		this.userName = this.getUserName();
+		this.userPassword = newUserPassword;
+		this.userEmail = this.getUserEmail();
+		this.userBalance = this.getUserBalance();
+		update();
 	}
 	
 	void changeUserPassword(AbstractUser target, String newUserPassword){
@@ -102,8 +142,12 @@ public class Administrator extends AbstractUser{
 	
 	@Override
 	void changeUserEmail(String newUserEmail) {
-		// TODO change own email
-		
+		// TODO change email
+		this.userName = this.getUserName();
+		this.userPassword = this.getUserPassword();
+		this.userEmail = newUserEmail;
+		this.userBalance = this.getUserBalance();
+		update();
 	}
 	
 	void changeUserEmail(AbstractUser target, String newUserEmail){
@@ -113,10 +157,11 @@ public class Administrator extends AbstractUser{
 	
 	@Override
 	void alterBalance(double payment) {
-		// this method won't return anything as administrator's balance will always be 0
-		
+		// TODO change balance
+		this.userName = this.getUserName();
+		this.userPassword = this.getUserPassword();
+		this.userEmail = this.getUserEmail();
+		this.userBalance -= payment;
+		update();
 	}
-	
-	
-
 }
