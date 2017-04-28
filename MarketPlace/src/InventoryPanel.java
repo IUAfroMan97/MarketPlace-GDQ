@@ -88,6 +88,7 @@ public class InventoryPanel extends JPanel{
 		
 	
 		invClass = currentMarketplace.getCurrentInventory();
+		invClass.pull();
 		inv = filterItems(filterText, invClass.inventory);
 		
 		for(Item i : inv){
