@@ -14,7 +14,7 @@ public class Database {
 		String passwordOfflineDB = "root";
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection(hostOfflineDB, userNameOfflineDB, passwordOfflineDB);
+		Connection con=DriverManager.getConnection(hostOfflineDB, userNameOfflineDB , passwordOfflineDB);
 
 		if(con!= null) {
 			System.out.println("Connected");

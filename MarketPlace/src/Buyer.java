@@ -50,6 +50,18 @@ public class Buyer extends AbstractUser{
 			st.setString(5, this.userEmail);
 			st.setDouble(6, this.userBalance);
 			st.executeUpdate();
+			
+			
+			
+			query="INSERT into History values(?,?,?,?,?,)";
+			st=con.prepareStatement(query);
+			
+			st.setString(1, this.historyID);
+			st.setString(2, this.itemID);
+			st.setString(3, this.buyerID);
+			st.setString(4, this.sellerID);
+			st.executeUpdate();
+			
 
 			con.close();
 
