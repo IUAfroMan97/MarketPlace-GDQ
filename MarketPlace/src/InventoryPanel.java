@@ -52,6 +52,18 @@ public class InventoryPanel extends JPanel{
 		
 	}
 	
+	public void filterItems(String textBar) {
+		String searchBarText = textBar;
+		
+		if (searchBarText == null) {
+			//display all items
+		} else {
+			//display based on the name
+		}
+	}
+	
+	
+	
 	public static void main(String[] args){
 		
 		JFrame frame = new JFrame();
