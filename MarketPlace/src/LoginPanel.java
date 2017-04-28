@@ -209,7 +209,7 @@ public class LoginPanel extends JPanel{
                 
 			}
 		});
-		btnJacGood.setBounds(50, 200, 50, 50);
+		btnJacGood.setBounds(226, 475, 107, 40);
 		buyerLogin.add(btnJacGood, BorderLayout.WEST);
 		
 		
@@ -313,6 +313,16 @@ public class LoginPanel extends JPanel{
 		sellerLogin.setLayout(null);
 		btnSellBack.setBounds(50, 50, 100, 40);
 		sellerLogin.add(btnSellBack);
+		
+		JButton btnlukas = new JButton("Lukas");
+		btnlukas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SellUserField.setText("lhamman");
+				SellPasswordField.setText("54321");
+			}
+		});
+		btnlukas.setBounds(226, 475, 107, 40);
+		sellerLogin.add(btnlukas);
 	
 		
 		
@@ -322,14 +332,111 @@ public class LoginPanel extends JPanel{
 		adminLogin.setLayout(null);
 		adminLogin.setBackground(Color.LIGHT_GRAY);
 		
-		JButton btnAdminBack = new JButton("Return");
+		
+		JLabel lblAdminUsername = new JLabel("Username");
+		lblAdminUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAdminUsername.setBounds(318, 222, 80, 28);
+		adminLogin.add(lblAdminUsername);
+		
+		JTextField adminUserField = new JTextField();
+		adminUserField.setBounds(400, 217, 299, 40);
+		adminLogin.add(adminUserField);
+		adminUserField.setColumns(10);
+		
+		JLabel lblAdminPassword = new JLabel("Password");
+		lblAdminPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAdminPassword.setBounds(320, 281, 72, 28);
+		adminLogin.add(lblAdminPassword);
+		
+		JTextField adminPasswordField = new JTextField();
+		adminPasswordField.setBounds(400, 271, 299, 40);
+		adminLogin.add(adminPasswordField);
+		adminPasswordField.setColumns(10);
+		
+		JButton btnAdminEnter = new JButton("Enter");
+		btnAdminEnter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            	currentUsers.pull();
+            	
+                Administrator admin = null;
+                AbstractUser tempUser;
+
+                String tempAdminUserName = adminUserField.getText();
+                String tempAdminPW = adminPasswordField.getText();
+
+                if(currentUsers.isUserNameInList(tempAdminUserName, currentUsers.usersList)) {
+                    if(currentUsers.getUserWithUserName(tempAdminUserName).getUserPassword().equalsIgnoreCase(tempAdminPW)) {
+                        tempUser = currentUsers.getUserWithUserName(tempAdminUserName);
+                        if(tempUser.getUserType().equalsIgnoreCase("Administrator")) {
+                            admin = (Administrator) tempUser;
+                        } else {
+                        	// called if user exists, pw exists, just the wrong userType
+                        	JOptionPane.showMessageDialog(btnAdminEnter, "Incorrect user type\nYou are not an admin", "Error", JOptionPane.ERROR_MESSAGE); 
+                        }
+                    } else {
+                    	// called if can't find the password
+                    	JOptionPane.showMessageDialog(btnAdminEnter, "Incorrect password", "Error", JOptionPane.ERROR_MESSAGE); 
+                    }
+                   
+                } else {
+                	// called if can't find the user
+                	JOptionPane.showMessageDialog(btnAdminEnter, "User " + tempAdminUserName + " does not exist!", "Error", JOptionPane.ERROR_MESSAGE); 
+       
+                }
+
+                // this is called if all parts of the login are successful!
+                if(admin != null) {
+                	
+                	// removes the username and password from textboxes
+                	adminUserField.setText("");
+                    adminPasswordField.setText("");
+                	
+                	// returns loginPanel to the first login screen
+                	cl.first(card);
+                	
+                	// changes to the seller panels
+                    AdminDriver ad = new AdminDriver(admin, currentMarketplace);
+                    Frame currentFrame = (Frame) SwingUtilities.getWindowAncestor(card);
+                    currentFrame.changePanel(ad);
+                    
+                    
+                } else {
+                	// called if login fails. simply deletes password field
+                	adminPasswordField.setText(""); 
+                }
+            }
+        });
+		btnAdminEnter.setBounds(400, 475, 100, 40);
+        adminLogin.add(btnAdminEnter);
+        
+        // the return function
+        JButton btnAdminBack = new JButton("Return");
 		btnAdminBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
+				// returns to the first card
 				cl.first(card);
+				
+				// also empties the user entry fields
+				adminUserField.setText("");
+                adminPasswordField.setText("");
 			}
 		});
+	
 		btnAdminBack.setBounds(50, 50, 100, 40);
 		adminLogin.add(btnAdminBack);
+		
+		JButton btnNdquigle = new JButton("ndquigle");
+		btnNdquigle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adminUserField.setText("ndquigle");
+				adminPasswordField.setText("56789");
+			}
+		});
+		btnNdquigle.setBounds(226, 475, 107, 40);
+		adminLogin.add(btnNdquigle, BorderLayout.SOUTH);
+		
+		
 
 	}
 }

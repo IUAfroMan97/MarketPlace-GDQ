@@ -141,8 +141,6 @@ public class Marketplace {
 //		currentUsers.update(thisSeller);
 //		currentUsers.push(thisBuyer);
 //		currentInventory.push(thisItem);
-		currentUsers.pull();
-		currentInventory.pull();
 	}
 	
 	public void test() {

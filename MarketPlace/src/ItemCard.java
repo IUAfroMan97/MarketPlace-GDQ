@@ -9,59 +9,62 @@ public class ItemCard extends JPanel{
 	private Item currentItem;
 	private AbstractUser currentUser;
 	private Marketplace currentMarketplace;
-	
+
 	public ItemCard(Item i, AbstractUser user, Marketplace mk){
 		setBackground(new Color(220, 220, 220));
 		this.currentItem = i;
 		this.currentUser = user;
 		this.currentMarketplace = mk;
-		
-		this.setMinimumSize(new Dimension(700, 90));
-		this.setMaximumSize(new Dimension(700, 90));
-		this.setPreferredSize(new Dimension(700, 90));
-		
+
+		this.setMinimumSize(new Dimension(800, 100));
+		this.setMaximumSize(new Dimension(800, 100));
+		this.setPreferredSize(new Dimension(800, 100));
+
 		this.setLayout(null);
-		
+
 		JLabel lblItemName = new JLabel(currentItem.getItemName());
 		lblItemName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblItemName.setBounds(12, 13, 302, 19);
 		add(lblItemName);
-		
+
 		Double price = currentItem.getItemPrice();
 		JLabel lblPrice = new JLabel("$" + price.toString());
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblPrice.setBounds(18, 33, 91, 16);
 		add(lblPrice);
-		
+
 		Integer quantity = currentItem.getItemQuantity();
 		JLabel lblAvailable = new JLabel(quantity.toString() + " available");
 		lblAvailable.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblAvailable.setBounds(18, 65, 114, 16);
 		add(lblAvailable);
-		
+
 		JLabel lblDescription = new JLabel(currentItem.getItemDescription());
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setBounds(246, 13, 454, 74);
 		add(lblDescription);
 
+
+
 		// only allows users to purchase if they are a buyer
 		if(currentUser.getUserType().equalsIgnoreCase("Buyer")){
-			
+
 			JButton btnPurchase = new JButton("Purchase");
 			btnPurchase.addActionListener(new ActionListener() {
-				
-				
-				
+
 				// if pressed, we go into the order confirmation
 				public void actionPerformed(ActionEvent e) {
 
 					// will fill out the drop down list
 					// unnecessary but looks cool
 					int quantity = currentItem.getItemQuantity();
+
+
+
 					if(quantity <= 0 || quantity*currentItem.getItemPrice() > currentUser.getUserBalance()){
 						//dialog box
-						
+						JOptionPane.showMessageDialog(btnPurchase, "Unable to complete transaction");
 					}
 					else{
 						String[] quantityList = new String[quantity];
@@ -74,17 +77,41 @@ public class ItemCard extends JPanel{
 						String order = (String) JOptionPane.showInputDialog(btnPurchase, "Select quantity desired", "Order Confirmation", JOptionPane.QUESTION_MESSAGE, (Icon) null, quantityList, quantityList[0]);
 						quantity = Integer.parseInt(order);
 
-
-
 						// able to cast to buyer because this will only ever appear for buyers
 						// starts the system of transactions
 						currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
 					}
+
+
 				}
 			});
 			btnPurchase.setBounds(595, 60, 100, 25);
 			add(btnPurchase);
+		} 
+		// if the user isn't a buyer, he's a seller or admin. 
+		// this means he can see and change any part of these items
+		else {
+			JButton btnChangeName = new JButton("Change Name");
+			btnChangeName.setBounds(600, 2, 150, 23);
+			add(btnChangeName);
+
+			JButton btnChangePrice = new JButton("Change Price");
+			btnChangePrice.setBounds(600, 26, 150, 23);
+			add(btnChangePrice);
+
+			JButton btnChangeQuantity = new JButton("Change Quantity");
+			btnChangeQuantity.setBounds(600, 51, 150, 23);
+			add(btnChangeQuantity);
+
+			JButton btnChangeDescription = new JButton("Change Description");
+			btnChangeDescription.setBounds(600, 76, 150, 23);
+			add(btnChangeDescription);
+			
+			JButton btnDeleteItem = new JButton("Delete Item");
+			btnDeleteItem.setBounds(475, 76, 100, 23);
+			add(btnDeleteItem);
+
 		}
 	}
-	
+
 }
