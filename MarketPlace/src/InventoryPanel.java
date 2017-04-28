@@ -1,5 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +9,10 @@ public class InventoryPanel extends JPanel{
 
 	Marketplace currentMarketplace;
 	AbstractUser currentUser;
-	JPanel viewer;
+	JScrollPane scrollPane;
 	Inventory invClass;
 	ArrayList<Item> inv;
+	String filterText;
 
 
 	public InventoryPanel(Marketplace mk, AbstractUser user){
@@ -27,13 +26,13 @@ public class InventoryPanel extends JPanel{
 		this.currentMarketplace = mk;
 		this.currentUser = user;
 		
-		viewer = new JPanel();
-		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
+//		viewer = new JPanel();
+//		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
 
 		// drawing the inventory itself
 
 		invClass = currentMarketplace.getCurrentInventory();
-		inv = invClass.inventory;
+		inv = filterItems(filterText, invClass.inventory);
 
 		// adding the search bar
 		JTextField itemSearch = new JTextField();
@@ -41,49 +40,29 @@ public class InventoryPanel extends JPanel{
 		add(itemSearch);
 		
 		
+		
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(205, -2, 97, 25);
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				System.out.println("Searching...");
 				// change the pane from this to login panel
 				String searchInput = itemSearch.getText();
 				
-				System.out.println("Search Input: " + searchInput);
 				
-				inv = filterItems(searchInput, inv);
-				//viewer = drawInventory(filterItems(searchInput, inv), viewer);
 				
-				for(Item i : inv){
-					System.out.println(i.getItemName());
-				}
-				repaint();
+				filterText = searchInput;
+				remove(scrollPane);
+				
+				run();
+				revalidate();
+				
 			}
 		});
 		add(btnSearch);
 		
-		// this one is weird
-		// so every item card takes up 100 space. by multiplying inventory size by 100, we get the right height
-		int viewHeight = 100 * inv.size();
-		viewer.setBounds(0, 0, 860, viewHeight);
-
-		/*
-		 * JTextField buyerPasswordField = new JTextField();
-		buyerPasswordField.setBounds(400, 271, 299, 40);
-		buyerLogin.add(buyerPasswordField);
-		buyerPasswordField.setColumns(10);
-		 */
-
-		viewer = drawInventory(inv, viewer);
-
-
-		JScrollPane scrollPane = new JScrollPane(viewer);
-
-		scrollPane.setBounds(5, 20, 860, 460);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-		add(scrollPane);
+		run();
 
 	}
 
@@ -96,12 +75,52 @@ public class InventoryPanel extends JPanel{
 
 		return panel;
 	}
+	
+	public void run(){
+		
+		JPanel viewer = new JPanel();
+		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
+		
+		int viewHeight = 100 * inv.size();
+		viewer.setBounds(0, 0, 860, viewHeight);
+		
+		
+		
+	
+		invClass = currentMarketplace.getCurrentInventory();
+		inv = filterItems(filterText, invClass.inventory);
+		
+		for(Item i : inv){
+			System.out.println(i.getItemName());
+			ItemCard current = new ItemCard(i, currentUser, currentMarketplace);
+			viewer.add(current);
+			viewer.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
+		
+		
 
-	public ArrayList<Item> filterItems(String textBar, ArrayList<Item> inventory) {
-		String searchBarText = textBar;
+		
+		scrollPane = new JScrollPane(viewer);
+
+		scrollPane.setBounds(5, 20, 860, 460);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		scrollPane.revalidate();
+		viewer.revalidate();
+
+		
+		
+		add(scrollPane);	
+
+		
+	}
+
+	public ArrayList<Item> filterItems(String searchBarText, ArrayList<Item> inventory) {
+	
 		ArrayList<Item> tempInv = new ArrayList<>();
 
-		if (searchBarText == null) {
+		if (searchBarText == null || searchBarText.isEmpty()) {
 			return invClass.inventory;
 		} else {
 			//display based on the name
@@ -112,11 +131,29 @@ public class InventoryPanel extends JPanel{
 						tempInv.add(element);
 					}
 				}
-				System.out.println("here");
 				return tempInv;
+			} else if (searchBarText.equalsIgnoreCase("Electronics")) {
+				for(Item element : inventory) {
+					if (element.getItemCategory().equalsIgnoreCase("Electronics")) {
+						tempInv.add(element);
+					}
+				}
+				return tempInv;
+			} else if (searchBarText.equalsIgnoreCase("Books")) {
+				for(Item element : inventory) {
+					if (element.getItemCategory().equalsIgnoreCase("Books")) {
+						tempInv.add(element);
+					}
+				} 
+				return tempInv;
+			} else {
+				for(Item element : inventory) {
+					if (element.getItemName().equalsIgnoreCase(searchBarText)) {
+						tempInv.add(element);
+					}
+				}
 			}
+			return tempInv;
 		}
-		System.out.println("hopefully not here");
-		return inventory;
 	}
 }

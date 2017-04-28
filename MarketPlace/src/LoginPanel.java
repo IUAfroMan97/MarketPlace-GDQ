@@ -78,6 +78,21 @@ public class LoginPanel extends JPanel{
 		btnSeller.setBounds(600, 400, 200, 40);
 		loginPanel.add(btnSeller);
 		
+		JButton btnCreateUser = new JButton("Create New User");
+		btnCreateUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				UserRegistration reg = new UserRegistration(currentMarketplace);
+				
+				
+				 Frame currentFrame = (Frame) SwingUtilities.getWindowAncestor(card);
+                 currentFrame.changePanel(reg);
+				
+			}
+		});
+		btnCreateUser.setBounds(350, 500, 200, 40);
+		loginPanel.add(btnCreateUser);
+		
 		
 		
 		
@@ -115,6 +130,8 @@ public class LoginPanel extends JPanel{
 		btnBuyerEnter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+            	currentUsers.pull();
+            	
                 Buyer buy = null;
                 AbstractUser tempUser;
 
@@ -181,6 +198,21 @@ public class LoginPanel extends JPanel{
 		btnBuyerBack.setBounds(50, 50, 100, 40);
 		buyerLogin.add(btnBuyerBack);
 		
+		JButton btnJacGood = new JButton("jacgood");
+		btnJacGood.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				
+				// also empties the user entry fields
+				buyerUserField.setText("jacgood");
+                buyerPasswordField.setText("12345");
+                
+                
+			}
+		});
+		btnJacGood.setBounds(50, 200, 50, 50);
+		buyerLogin.add(btnJacGood, BorderLayout.WEST);
+		
+		
 		
 		// ---------- seller panels ----------
 		
@@ -213,6 +245,8 @@ public class LoginPanel extends JPanel{
         btnSellEnter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+            	currentUsers.pull();
+            	
                 Seller sell = null;
                 AbstractUser tempUser;
 
