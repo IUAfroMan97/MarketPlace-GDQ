@@ -76,7 +76,9 @@ public class SellerDriver extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				 String inputValue = JOptionPane.showInputDialog(btnChangeUsername, "Input new username"); 
 				 System.out.println(inputValue);
-				 currentUser.changeUserName(inputValue);
+				 if (inputValue != null && inputValue != "") {
+					 currentUser.changeUserName(inputValue);
+				 }
 				 //revalidate();
 			}
 		});
@@ -101,7 +103,9 @@ public class SellerDriver extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				 String inputValue = JOptionPane.showInputDialog(btnChangeEmail, "Input new email"); 
 				 System.out.println(inputValue);
-				 currentUser.changeUserEmail(inputValue);
+				 if (inputValue != null && inputValue != "") {
+					 currentUser.changeUserEmail(inputValue);
+				 }
 				 //revalidate();
 			}
 		});
@@ -114,7 +118,9 @@ public class SellerDriver extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				 String inputValue = JOptionPane.showInputDialog(btnChangePassword, "Input new password"); 
 				 System.out.println(inputValue);
-				 currentUser.changeUserPassword(inputValue);
+				 if (inputValue != null && inputValue != "") {
+					 currentUser.changeUserPassword(inputValue);
+				 }
 				 //revalidate();
 			}
 			});
