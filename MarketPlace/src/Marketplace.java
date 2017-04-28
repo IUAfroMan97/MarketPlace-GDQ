@@ -12,7 +12,7 @@ public class Marketplace {
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
 		
-		test();	
+		//test();	
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
