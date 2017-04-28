@@ -83,18 +83,20 @@ public class Inventory {
 				Seller currentSeller = null;
 				for(AbstractUser element : currentUsers.usersList) {
 					if(element.getUserType().equalsIgnoreCase("Seller")) {
-						
-						System.out.println(element.getUserID());
 						if (element.getUserID().equalsIgnoreCase(sellerID)) {
 							currentSeller = (Seller) element;
+						} else {
+							System.out.println("doesnt match sellerID");
 						}
-						System.out.println("doesnt match sellerID");
+					} else {
+						System.out.println("not a seller");
 					}
-					System.out.println("not a seller");
 				}
-				
+
 				if(!isItemIdInList(itemID)) {
-					inventory.add(new Item(itemID, currentSeller, itemName, itemCategory, itemPrice, itemQuantity, itemDescription));
+					System.out.println("Adding item to inventory");
+					Item foundItem = new Item(itemID, currentSeller, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+					inventory.add(foundItem);
 				}
 			}
 

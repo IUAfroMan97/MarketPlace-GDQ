@@ -27,7 +27,7 @@ public class Item {
 	
 	public Item(String itemID, Seller sellerID, String itemName, String itemCategory, double itemPrice, int itemQuantity, String itemDescription) {
 		this.itemID = itemID;
-		//this.sellerID = sellerID.getUserID();
+		this.sellerID = sellerID.getUserID();
 		this.itemName = itemName;
 		this.itemCategory = itemCategory;
 		this.itemPrice = itemPrice;

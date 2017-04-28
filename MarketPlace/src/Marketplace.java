@@ -12,7 +12,7 @@ public class Marketplace {
 		currentUsers = new Users();
 		currentInventory = new Inventory(this.getCurrentUsers());
 		
-		//test();	
+		test();	
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
@@ -86,24 +86,6 @@ public class Marketplace {
 	}
 	
 	public void test() {
-		//Buyer testBuyer = new Buyer("testBuyer", "12345", "jac@good", 1000.00);
-		//this.getCurrentUsers().displayUsers();
-		//this.deleteUser("111111");
-		//this.deleteUser(testBuyer.getUserID());
-		//this.getCurrentUsers().displayUsers();
-		//Item testItem = new Item((Seller) currentUsers.getUser("lhamman"), "testItem", "Home & Garden", 123.00, 10, "This is a test item");
-		//this.getCurrentInventory().displayItems();
-		//this.deleteItem(testItem.getItemID());
-		//this.getCurrentInventory().displayItems();
-		
-		System.out.println("Items");
-		for(Item element : this.getCurrentInventory().inventory) {
-			System.out.println(element.getSellerID());
-		}
-		System.out.println("Users");
-		for(AbstractUser element : this.getCurrentUsers().usersList) {
-			System.out.println(element.getUserID());
-		}
 		
 	}
 
