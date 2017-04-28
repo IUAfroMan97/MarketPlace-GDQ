@@ -85,8 +85,6 @@ public class InventoryPanel extends JPanel{
 
 		add(scrollPane);
 
-		
-
 	}
 
 	public JPanel drawInventory(ArrayList<Item> inv, JPanel panel){
