@@ -47,6 +47,15 @@ public class Transaction implements ActionListener{
 		
 	}
 	
+	public Transaction(String transID, String itemID, String buyerID, String sellerID, int quantity, String shipped){
+		this.transID = transID;
+		this.itemID = itemID;
+		this.buyerID = buyerID;
+		this.sellerID = sellerID;
+		this.quantity = quantity;
+		this.shipped = shipped.equalsIgnoreCase("true");
+	}
+	
 	private void push() {
 		// TODO Auto-generated method stub
 		String tempShipped = "" + this.shipped;

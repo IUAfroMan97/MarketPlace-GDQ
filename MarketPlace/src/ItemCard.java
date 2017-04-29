@@ -103,7 +103,7 @@ public class ItemCard extends JPanel{
 					 //revalidate();
 				}
 			});
-			btnChangePrice.setBounds(600, 26, 150, 23);
+			btnChangePrice.setBounds(600, 1, 150, 23);
 			add(btnChangePrice);
 
 			JButton btnChangeQuantity = new JButton("Change Quantity");
@@ -117,7 +117,7 @@ public class ItemCard extends JPanel{
 					 //revalidate();
 				}
 			});
-			btnChangeQuantity.setBounds(600, 51, 150, 23);
+			btnChangeQuantity.setBounds(600, 26, 150, 23);
 			add(btnChangeQuantity);
 
 			JButton btnChangeDescription = new JButton("Change Description");
@@ -131,7 +131,7 @@ public class ItemCard extends JPanel{
 					 //revalidate();
 				}
 			});
-			btnChangeDescription.setBounds(600, 76, 150, 23);
+			btnChangeDescription.setBounds(600, 51, 150, 23);
 			add(btnChangeDescription);
 			
 			
@@ -142,15 +142,18 @@ public class ItemCard extends JPanel{
 			JButton btnDeleteItem = new JButton("Delete Item");
 			btnDeleteItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 String inputValue = JOptionPane.showInputDialog(btnDeleteItem, "Input new Item Description"); 
-					 System.out.println(inputValue);
-					 if (inputValue != null && inputValue != "") {
+					 int delete = JOptionPane.showConfirmDialog(btnDeleteItem, "Are you sure you want to delete?");
+				
+					 // if they choose yes, delete will be 0. if no, delete will be 1
+					 
+					 if(delete==0){
 						 currentMarketplace.deleteItem(currentItem.getItemID());
 					 }
-					 //revalidate();
+					 
+					 revalidate();
 				}
 			});
-			btnDeleteItem.setBounds(475, 76, 100, 23);
+			btnDeleteItem.setBounds(600, 76, 150, 23);
 			add(btnDeleteItem);
 
 		}

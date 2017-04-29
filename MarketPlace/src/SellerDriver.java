@@ -89,7 +89,7 @@ public class SellerDriver extends JPanel{
 		// user's balance
 		JLabel lblBalance = new JLabel();
 		lblBalance.setText("Current Account Balance:" + inputUser.getUserBalance());
-		lblBalance.setBounds(663, 453, 200, 34);
+		lblBalance.setBounds(12, 174, 361, 34);
 		overview.add(lblBalance);
 		
 		

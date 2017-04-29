@@ -95,32 +95,65 @@ public class Users {
 				transactionID = rs.getString(5);
 				itemQuantity = rs.getInt(6);
 				itemShipped = rs.getString(7);
+				
+				
+				
+				System.out.println(sellerID);
+				System.out.println(buyerID);
+				System.out.println(HistoryID);
+				System.out.println(itemID);
+				System.out.println(transactionID);
+				System.out.println(itemQuantity);
+				System.out.println(itemShipped);
+				
+				//(Item givenItem, String buyerID, String sellerID, int quantity, Marketplace mk)
+				
+				Transaction tempTrans = new Transaction(transactionID,
+						itemID,
+						buyerID,
+						sellerID,
+						itemQuantity,
+						itemShipped);
+				transList.add(tempTrans);
+				
+				
+				
+				
+				
 
-
-				for(AbstractUser element : this.usersList) {
-					Seller tempSeller = null;
-					Buyer tempBuyer = null;
-					Item tempItem = currentMarketplace.getCurrentInventory().getItemFromInventory(itemID);
-					
-					if(element.getUserType().equalsIgnoreCase("Seller")) {
-						 tempSeller = (Seller) element;
-					} else if (element.getUserType().equalsIgnoreCase("Buyer")) {
-						tempBuyer = (Buyer) element;
-					}
-					
-					if(tempSeller.getUserID() == sellerID) {
-						if(buyerID == null) {
-							tempSeller.getPostHistory().add(tempItem);
-						} else {
-							tempSeller.getSoldHistory().add(tempItem);
-						}
-					}
-					
-					if (tempBuyer.getUserID() == buyerID) {
-						tempBuyer.getPurchasedHistory().add(itemID);
-					}
-				}	
-			}
+//				for(AbstractUser element : this.usersList) {
+//					Seller tempSeller = null;
+//					Buyer tempBuyer = null;
+//					Administrator tempAdmin = null;
+//					Item tempItem = currentMarketplace.getCurrentInventory().getItemFromInventory(itemID);
+//					
+//					if(element.getUserType().equalsIgnoreCase("Seller")) {
+//						tempSeller = (Seller) element;
+//					} else if (element.getUserType().equalsIgnoreCase("Buyer")) {
+//						tempBuyer = (Buyer) element;
+//					} else if (element.getUserType().equalsIgnoreCase("Administrator")) {
+//						tempAdmin = (Administrator) element;
+//					}
+//
+//					if(tempAdmin == null) {
+//						
+//						if(tempSeller != null || tempSeller.getUserID() == sellerID) {
+//							if(buyerID == null) {
+//								tempSeller.getPostHistory().add(tempItem);
+//							} else {
+//								tempSeller.getSoldHistory().add(tempItem);
+//							}
+//						}
+//
+//						if (tempBuyer != null || tempBuyer.getUserID() == buyerID) {
+//							tempBuyer.getPurchasedHistory().add(itemID);
+//						}
+//					}	
+//				}
+//			}
+			
+			}	
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

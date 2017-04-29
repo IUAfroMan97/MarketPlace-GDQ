@@ -20,11 +20,15 @@ public class AdminDriver extends JPanel{
 	AdminDriver currentSession;
 	private Administrator currentUser;
 	private Marketplace currentMarketplace;
+	private Users currentUsers;
+	
+	JScrollPane userScrollPane;
 	
 	public AdminDriver(Administrator currentUser, Marketplace mk){
 		currentSession = this;
 		this.currentUser = currentUser;
 		this.currentMarketplace = mk;
+		this.currentUsers = currentMarketplace.getCurrentUsers();
 		
 		this.setSize(900, 600);
 		this.setVisible(true);
@@ -59,7 +63,6 @@ public class AdminDriver extends JPanel{
 		});
 		btnLogOut.setBounds(791, 6, 97, 40);
 		this.add(btnLogOut);
-		
 		
 		// overview tab!
 		JPanel overview = new JPanel();
@@ -140,6 +143,7 @@ public class AdminDriver extends JPanel{
 		overview.add(lblPassword);
 		
 		
+		
 		// INventory Panel
 		InventoryPanel inventoryPanel = new InventoryPanel(currentMarketplace, currentUser);
 		tabbedPane.add("Inventory", inventoryPanel);
@@ -152,45 +156,129 @@ public class AdminDriver extends JPanel{
 		userView.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.add("User View", userView);
 		
+		Users currentUsers = currentMarketplace.getCurrentUsers();	
+		
+		
+		JButton btnUserRefresh = new JButton("Refresh");
+		btnUserRefresh.setBounds(305, -2, 97, 23);
+		btnUserRefresh.addActionListener(new ActionListener() {
 			
-			JPanel viewer = new JPanel();
-			viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
-			
-			Users currentUsers = currentMarketplace.getCurrentUsers();
-			ArrayList<AbstractUser> userList = currentUsers.usersList;
-			
-			int viewHeight = 100 * userList.size();
-			viewer.setBounds(0, 0, 860, viewHeight);
-			
-			
-			
-			
-			for(AbstractUser u : userList){
+			public void actionPerformed(ActionEvent e) {
 				
-				UserCard current = new UserCard(u, currentMarketplace);
-				viewer.add(current);
-				viewer.add(Box.createRigidArea(new Dimension(0, 2)));
+				currentUsers.pull();
+				
+				remove(userScrollPane);
+				userScrollPane.invalidate();
+				
+				revalidate();
+				
+				userRun(userView);
+				
+				
 			}
-			
-			
+		});
+		userView.add(btnUserRefresh);
+		
+		userRun(userView);
 
-			
-			JScrollPane scrollPane = new JScrollPane(viewer);
 
-			scrollPane.setBounds(5, 20, 860, 460);
-			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-			scrollPane.revalidate();
-			viewer.revalidate();
 
-			
-			
-			userView.add(scrollPane);	
 
-			
+		// ------- Transaction Viewer ---------
+		JPanel transView = new JPanel();
+		transView.setLayout(null);
+		transView.setSize(860, 530);
+		transView.setBackground(Color.LIGHT_GRAY);
+		tabbedPane.add("Transaction Viewer", transView);
+
+
+		JPanel transViewer = new JPanel();
+		transViewer.setLayout(new BoxLayout(transViewer, BoxLayout.Y_AXIS));
+		currentUsers.pullTransList();
+
+		ArrayList<Transaction> transList = currentUsers.transList;
+		System.out.println(transList.size());
+
+		int transViewHeight = 100 * transList.size();
+		transViewer.setBounds(0, 0, 860, transViewHeight);
+
+
+
+
+		for(Transaction t : transList){
+
+			TransCard tc = new TransCard(t);
+			transViewer.add(tc);
+			transViewer.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
+
+
+
+
+		JScrollPane transScrollPane = new JScrollPane(transViewer);
+
+		transScrollPane.setBounds(5, 20, 860, 460);
+		transScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		transScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		//		transScrollPane.revalidate();
+		//		transViewer.revalidate();
+
+
+
+		transView.add(transScrollPane);
+
+	}
+
+
+	public void userRun(JPanel parent){
+		
+		if(userScrollPane != null){
+			parent.remove(userScrollPane);
+		}
+		
+		JPanel viewer = new JPanel();
+		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
+
 		
 		
+		ArrayList<AbstractUser> userList = currentMarketplace.getCurrentUsers().usersList;
+
+		
+		int viewHeight = 100 * userList.size();
+		viewer.setBounds(0, 0, 860, viewHeight);
+		
+
+
+
+		for(AbstractUser u : userList){
+
+			UserCard current = new UserCard(u, currentMarketplace);
+			viewer.add(current);
+			viewer.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
+
+
+
+
+
+		userScrollPane = new JScrollPane(viewer);
+
+		userScrollPane.setBounds(5, 20, 860, 460);
+		userScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		userScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		//userScrollPane.revalidate();
+		//viewer.revalidate();
+
+
+
+		parent.add(userScrollPane);
+		parent.revalidate();
+		
+
+
 	}
 
 }

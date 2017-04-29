@@ -123,6 +123,19 @@ public class UserCard extends JPanel{
 		add(btnChangeBalance);
 		
 		JButton btnDeleteUser = new JButton("Delete User");
+		btnDeleteUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int delete = JOptionPane.showConfirmDialog(btnDeleteUser, "Are you sure you want to delete?");
+			
+				 // if they choose yes, delete will be 0. if no, delete will be 1
+				 
+				 if(delete==0){
+					 currentMarketplace.deleteUser(currentUser.getUserID());
+				 }
+				 
+				 revalidate();
+			}
+		});
 		btnDeleteUser.setBounds(475, 76, 100, 23);
 		add(btnDeleteUser);
 	}

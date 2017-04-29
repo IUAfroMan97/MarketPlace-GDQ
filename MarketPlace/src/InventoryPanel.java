@@ -10,7 +10,7 @@ public class InventoryPanel extends JPanel{
 	Marketplace currentMarketplace;
 	AbstractUser currentUser;
 	JScrollPane scrollPane;
-	Inventory invClass;
+	Inventory currentInventory;
 	ArrayList<Item> inv;
 	String filterText;
 
@@ -31,9 +31,8 @@ public class InventoryPanel extends JPanel{
 
 		// drawing the inventory itself
 
-		invClass = currentMarketplace.getCurrentInventory();
-		invClass.pull();
-		inv = filterItems(filterText, invClass.inventory);
+		currentInventory = currentMarketplace.getCurrentInventory();
+		inv = filterItems(filterText, currentInventory.inventory);
 
 		// adding the search bar
 		JTextField itemSearch = new JTextField();
@@ -43,7 +42,7 @@ public class InventoryPanel extends JPanel{
 		
 		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(205, -2, 97, 25);
+		btnSearch.setBounds(205, -2, 97, 23);
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -56,55 +55,75 @@ public class InventoryPanel extends JPanel{
 				filterText = searchInput;
 				remove(scrollPane);
 				
-				run();
+				
 				revalidate();
+				
+				run();
+			
 				
 			}
 		});
 		add(btnSearch);
 		
+		// we need this here. if not, it'll never draw the new canvas
 		run();
+		
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.setBounds(305, -2, 97, 23);
+		btnRefresh.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				currentInventory.pull();
+				remove(scrollPane);
+				
+				revalidate();
+				run();
+				
+			}
+		});
+		add(btnRefresh);
+		
 
 	}
-	
+
+
 	public void run(){
-		
+
 		JPanel viewer = new JPanel();
 		viewer.setLayout(new BoxLayout(viewer, BoxLayout.Y_AXIS));
-		
+
 		int viewHeight = 100 * inv.size();
 		viewer.setBounds(0, 0, 860, viewHeight);
-		
-		
-		
-	
-		invClass = currentMarketplace.getCurrentInventory();
-		inv = filterItems(filterText, invClass.inventory);
-		
+
+
+
+
+		currentInventory = currentMarketplace.getCurrentInventory();
+		inv = filterItems(filterText, currentInventory.inventory);
+
 		for(Item i : inv){
-			System.out.println(i.getItemName());
+			//System.out.println(i.getItemName());
 			ItemCard current = new ItemCard(i, currentUser, currentMarketplace);
 			viewer.add(current);
 			viewer.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
-		
-		
 
-		
+
+
+
 		scrollPane = new JScrollPane(viewer);
 
 		scrollPane.setBounds(5, 20, 860, 460);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		scrollPane.revalidate();
-		viewer.revalidate();
+		
 
-		
-		
 		add(scrollPane);	
 
-		
+
 	}
 
 	public ArrayList<Item> filterItems(String searchBarText, ArrayList<Item> inventory) {
@@ -112,7 +131,7 @@ public class InventoryPanel extends JPanel{
 		ArrayList<Item> tempInv = new ArrayList<>();
 
 		if (searchBarText == null || searchBarText.isEmpty()) {
-			return invClass.inventory;
+			return currentInventory.inventory;
 		} else {
 			//display based on the name
 			
@@ -140,8 +159,6 @@ public class InventoryPanel extends JPanel{
 			} else {
 				for(Item element : inventory) {
 					if (element.getItemName().equalsIgnoreCase(searchBarText)) {
-						tempInv.add(element);
-					} else if (element.getItemID().equalsIgnoreCase(searchBarText)) {
 						tempInv.add(element);
 					}
 				}
