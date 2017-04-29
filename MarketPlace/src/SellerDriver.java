@@ -61,6 +61,13 @@ public class SellerDriver extends JPanel{
 		overview.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.add("Overview", overview);
 		
+
+		// For the change value buttons!
+		// 1. Pops out a dialog box asking for user to input new value
+		// 2. Saves the value to a temporary string
+		// 3. Calls the outer functions in AbstractUser with temporary String to change value
+		// 4. (Optional) User must log in and out in order to save changes. Can only save one change at a time
+		
 		// user id label
 		JLabel lblUserID = new JLabel("UserID: " + inputUser.getUserID());
 		lblUserID.setBounds(12, 13, 200, 34);
@@ -140,19 +147,18 @@ public class SellerDriver extends JPanel{
 		
 		
 		
-		// TODO: Maybe add current listings to this tab?
-		// need to fill space somehow		
-		// hook up those buttons
-		
-		// View Seller History Pane
-		// View Current Listing Tab
-		
 		// ------------- post new item tab -----------------
 		JPanel newItemTab = new JPanel();
 		newItemTab.setLayout(null);
 		newItemTab.setSize(860, 530);
 		newItemTab.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.add("Post new item", newItemTab);
+		
+		// fields for inputting item information
+		
+		JLabel lblDisclaimer = new JLabel("<html>Once you have posted your item, only an administrator can change the values</html>");	
+		lblDisclaimer.setBounds(400, 13, 200, 100);
+		newItemTab.add(lblDisclaimer);
 		
 		JLabel lblItemName = new JLabel("Item name: ");
 		lblItemName.setBounds(12, 13, 89, 16);
@@ -181,7 +187,7 @@ public class SellerDriver extends JPanel{
 		newItemTab.add(txtQuantity);
 		txtQuantity.setColumns(10);
 		
-				
+		// this box holds all three possible categories for the items
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a category:", "Home & Garden", "Electronics", "Books"}));
 		comboBox.setBounds(12, 129, 131, 22);
@@ -203,18 +209,19 @@ public class SellerDriver extends JPanel{
 				
 				Seller seller = currentUser;
 				
+				// grabs the info from each field of input
 				String itemName = txtItemName.getText();
-				String itemCategory = comboBox.getSelectedItem().toString();
+				String itemCategory = comboBox.getSelectedItem().toString(); // gets the selected index of the comboBox
 				double itemPrice = Double.parseDouble(txtPrice.getText());
 				int itemQuantity = Integer.parseInt(txtQuantity.getText());
 				String itemDescription = txtDescription.getText();
 				
-				// JOptionPane.showMessageDialog(component, "message", "header", JOptionPane.ERROR_MESSAGE); 
+				
 				
 				if(itemCategory == "Select a category:"){
 					JOptionPane.showMessageDialog(btnCreateListing, "Select a type!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				else if(itemName.isEmpty() || itemDescription.isEmpty() || itemPrice <= 0 || itemQuantity <= 0){
+				else if(itemName == ""|| itemDescription == ""|| itemPrice <= 0 || itemQuantity <= 0){
 					JOptionPane.showMessageDialog(btnCreateListing, "Fill out every field", "Error", JOptionPane.ERROR_MESSAGE);				}
 				else{
 					currentMarketplace.createItem(seller, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
@@ -235,10 +242,7 @@ public class SellerDriver extends JPanel{
 		});
 		btnCreateListing.setBounds(12, 449, 122, 25);
 		newItemTab.add(btnCreateListing);
-		
-//		// inventory tester in case I need to look at the whole inventory as a seller
-//		InventoryPanel ip = new InventoryPanel(currentMarketplace, currentUser);
-//		tabbedPane.add("Inventory", ip);
+
 			
 		
 		

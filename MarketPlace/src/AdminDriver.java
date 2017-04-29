@@ -17,17 +17,22 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 public class AdminDriver extends JPanel{
+	
+	// need to have these instance variables in order to alter the greater program
 	AdminDriver currentSession;
 	private Administrator currentUser;
 	private Marketplace currentMarketplace;
 	private Users currentUsers;
 	
+	// necessary for refreshing userViewer
 	JScrollPane userScrollPane;
 	
 	public AdminDriver(Administrator currentUser, Marketplace mk){
 		currentSession = this;
 		this.currentUser = currentUser;
 		this.currentMarketplace = mk;
+		
+		// grabs users from marketplace
 		this.currentUsers = currentMarketplace.getCurrentUsers();
 		
 		this.setSize(900, 600);
@@ -38,16 +43,12 @@ public class AdminDriver extends JPanel{
 		
 		// ---------- building the frame around the main pane ----------
 		
-		// where we will keep all the data etc
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		tabbedPane.setBounds(8, 30, 880, 530);
-		this.add(tabbedPane);
 		
-		// displays current username
-		JLabel lblSellID = new JLabel("Current User: " + currentUser.getUserID());
-		lblSellID.setBounds(12, 8, 200, 20);
-		this.add(lblSellID);
+		// displays current user ID
+		JLabel lblAdminID = new JLabel("Current User: " + currentUser.getUserID());
+		lblAdminID.setBounds(12, 8, 200, 20);
+		this.add(lblAdminID);
 		
 		
 		JButton btnLogOut = new JButton("Log Out");
@@ -63,6 +64,14 @@ public class AdminDriver extends JPanel{
 		});
 		btnLogOut.setBounds(791, 6, 97, 40);
 		this.add(btnLogOut);
+		
+		
+		// ---- Tabbed Pane ---- 
+		// where we will keep all the data etc
+				JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				
+				tabbedPane.setBounds(8, 30, 880, 530);
+				this.add(tabbedPane);
 		
 		// overview tab!
 		JPanel overview = new JPanel();
@@ -84,13 +93,14 @@ public class AdminDriver extends JPanel{
 		JButton btnChangeUsername = new JButton("Change Username");
 		btnChangeUsername.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// pops dialog box to get input
 				 String inputValue = JOptionPane.showInputDialog(btnChangeUsername, "Input new username"); 
-				 System.out.println(inputValue);
+				 
 				 if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserName(inputValue);
 				 }
-				 //revalidate();
-				 //overview.repaint();
+				 
 			}
 		});
 		btnChangeUsername.setBounds(224, 65, 149, 25);
@@ -98,7 +108,7 @@ public class AdminDriver extends JPanel{
 		
 		
 		
-		// email malarkey
+		// email stuff
 		JLabel lblEmail = new JLabel("E-mail: " + currentUser.getUserEmail());
 		lblEmail.setBounds(12, 107, 200, 16);
 		overview.add(lblEmail);
@@ -107,11 +117,11 @@ public class AdminDriver extends JPanel{
 		btnChangeEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String inputValue = JOptionPane.showInputDialog(btnChangeEmail, "Input new email"); 
-				System.out.println(inputValue);
+				
 				if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserEmail(inputValue);
 				 }
-				//revalidate();
+				
 			}
 		});
 		btnChangeEmail.setBounds(224, 103, 149, 25);
@@ -126,7 +136,7 @@ public class AdminDriver extends JPanel{
 				if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserPassword(inputValue);
 				 }
-				//revalidate();
+				
 			}
 		});
 		btnChangePassword.setBounds(224, 141, 149, 25);
@@ -143,6 +153,8 @@ public class AdminDriver extends JPanel{
 		overview.add(lblPassword);
 		
 		
+		// NOTE! Overview panel must be reloaded by logging out and back in to accept changes
+		
 		
 		// INventory Panel
 		InventoryPanel inventoryPanel = new InventoryPanel(currentMarketplace, currentUser);
@@ -156,7 +168,6 @@ public class AdminDriver extends JPanel{
 		userView.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.add("User View", userView);
 		
-		Users currentUsers = currentMarketplace.getCurrentUsers();	
 		
 		
 		JButton btnUserRefresh = new JButton("Refresh");
@@ -164,14 +175,16 @@ public class AdminDriver extends JPanel{
 		btnUserRefresh.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				
+				// pulls most recent list from the database
 				currentUsers.pull();
 				
+				// removes old scroll pane, destroys it
 				remove(userScrollPane);
 				userScrollPane.invalidate();
 				
 				revalidate();
 				
+				// creates a new scrollPane, displays and adds it
 				userRun(userView);
 				
 				
@@ -179,6 +192,8 @@ public class AdminDriver extends JPanel{
 		});
 		userView.add(btnUserRefresh);
 		
+		
+		// creates new scrollPane and displays users on it
 		userRun(userView);
 
 
@@ -197,9 +212,11 @@ public class AdminDriver extends JPanel{
 		transViewer.setLayout(new BoxLayout(transViewer, BoxLayout.Y_AXIS));
 		currentUsers.pullTransList();
 
+		// gets transaction list from users
 		ArrayList<Transaction> transList = currentUsers.transList;
 		System.out.println(transList.size());
 
+		// creates a panel of just the right height
 		int transViewHeight = 100 * transList.size();
 		transViewer.setBounds(0, 0, 860, transViewHeight);
 
@@ -207,7 +224,7 @@ public class AdminDriver extends JPanel{
 
 
 		for(Transaction t : transList){
-
+			// creates and adds a transCard for every transaction in the database
 			TransCard tc = new TransCard(t);
 			transViewer.add(tc);
 			transViewer.add(Box.createRigidArea(new Dimension(0, 2)));
@@ -215,26 +232,24 @@ public class AdminDriver extends JPanel{
 
 
 
-
+		// creates a scrolling pane to display transactions and adds it to the panel
 		JScrollPane transScrollPane = new JScrollPane(transViewer);
 
 		transScrollPane.setBounds(5, 20, 860, 460);
 		transScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		transScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		//		transScrollPane.revalidate();
-		//		transViewer.revalidate();
-
-
-
+		
+	
 		transView.add(transScrollPane);
 
 	}
 
-
+	// called to create and add the userPanel
 	public void userRun(JPanel parent){
 		
 		if(userScrollPane != null){
+			// removes the old pane 
 			parent.remove(userScrollPane);
 		}
 		
@@ -251,7 +266,7 @@ public class AdminDriver extends JPanel{
 		
 
 
-
+		// for user list creates a userCard and adds it to the panel
 		for(AbstractUser u : userList){
 
 			UserCard current = new UserCard(u, currentMarketplace);
@@ -269,11 +284,8 @@ public class AdminDriver extends JPanel{
 		userScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		userScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		//userScrollPane.revalidate();
-		//viewer.revalidate();
-
-
-
+		
+		// adds the scrolling pane to the given panel which will always be the userView
 		parent.add(userScrollPane);
 		parent.revalidate();
 		

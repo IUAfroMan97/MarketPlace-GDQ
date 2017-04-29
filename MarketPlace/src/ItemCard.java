@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ItemCard extends JPanel{
+	
+	// these will be used to affect this item as well as the greater program
 	private Item currentItem;
 	private AbstractUser currentUser;
 	private Marketplace currentMarketplace;
@@ -16,11 +18,15 @@ public class ItemCard extends JPanel{
 		this.currentUser = user;
 		this.currentMarketplace = mk;
 
+		// these will create the cards of a small enough size that will fit 
 		this.setMinimumSize(new Dimension(800, 100));
 		this.setMaximumSize(new Dimension(800, 100));
 		this.setPreferredSize(new Dimension(800, 100));
 
 		this.setLayout(null);
+		
+		// display item information
+		// get information from current item
 
 		JLabel lblItemName = new JLabel(currentItem.getItemName());
 		lblItemName.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -42,8 +48,13 @@ public class ItemCard extends JPanel{
 		JLabel lblDescription = new JLabel(currentItem.getItemDescription());
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
-		lblDescription.setBounds(246, 13, 454, 74);
+		lblDescription.setBounds(246, 13, 454, 50);
 		add(lblDescription);
+		
+		JLabel lblSellerID = new JLabel("Seller ID: " + currentItem.getSellerID());
+		lblSellerID.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSellerID.setBounds(246, 65, 300, 16);
+		add(lblSellerID);
 
 
 
@@ -75,11 +86,16 @@ public class ItemCard extends JPanel{
 						// this pops out a dialog box asking user to select value they want
 						// order is actually the number they select. String because that's the way dialog box works
 						String order = (String) JOptionPane.showInputDialog(btnPurchase, "Select quantity desired", "Order Confirmation", JOptionPane.QUESTION_MESSAGE, (Icon) null, quantityList, quantityList[0]);
-						quantity = Integer.parseInt(order);
 
-						// able to cast to buyer because this will only ever appear for buyers
-						// starts the system of transactions
-						currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
+						if(order != null){
+							// if user exited out instead of buying something
+
+							quantity = Integer.parseInt(order);
+
+							// able to cast to buyer because this will only ever appear for buyers
+							// starts the system of transactions
+							currentMarketplace.beginTransaction((Buyer) currentUser, currentItem.getSellerID(), currentItem, quantity);
+						}
 					}
 
 
@@ -92,15 +108,18 @@ public class ItemCard extends JPanel{
 		// this means he can see and change any part of these items
 		else {
 
+			// each of these change buttons issue a call to the item itself to change its stuff
+			// updates after inventory panel calls its refresh button
+			
 			JButton btnChangePrice = new JButton("Change Price");
 			btnChangePrice.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					 String inputValue = JOptionPane.showInputDialog(btnChangePrice, "Input new Item Price"); 
-					 System.out.println(inputValue);
+					 
 					 if (inputValue != null && inputValue != "") {
 						 currentItem.setItemPrice(Double.parseDouble(inputValue));
 					 }
-					 //revalidate();
+					 
 				}
 			});
 			btnChangePrice.setBounds(600, 1, 150, 23);
@@ -110,11 +129,11 @@ public class ItemCard extends JPanel{
 			btnChangeQuantity.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					 String inputValue = JOptionPane.showInputDialog(btnChangeQuantity, "Input new Item Quantity"); 
-					 System.out.println(inputValue);
+					 
 					 if (inputValue != null && inputValue != "") {
 						 currentItem.setItemQuantity(Integer.parseInt(inputValue));
 					 }
-					 //revalidate();
+					
 				}
 			});
 			btnChangeQuantity.setBounds(600, 26, 150, 23);
@@ -124,20 +143,17 @@ public class ItemCard extends JPanel{
 			btnChangeDescription.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					 String inputValue = JOptionPane.showInputDialog(btnChangeDescription, "Input new Item Description"); 
-					 System.out.println(inputValue);
+					 
 					 if (inputValue != null && inputValue != "") {
 						 currentItem.setItemDescription(inputValue);
 					 }
-					 //revalidate();
+					 
 				}
 			});
 			btnChangeDescription.setBounds(600, 51, 150, 23);
 			add(btnChangeDescription);
 			
 			
-			
-			
-			//////fix this nick!!!!!!!!
 			
 			JButton btnDeleteItem = new JButton("Delete Item");
 			btnDeleteItem.addActionListener(new ActionListener() {

@@ -115,42 +115,6 @@ public class Users {
 						itemQuantity,
 						itemShipped);
 				transList.add(tempTrans);
-				
-				
-				
-				
-				
-
-//				for(AbstractUser element : this.usersList) {
-//					Seller tempSeller = null;
-//					Buyer tempBuyer = null;
-//					Administrator tempAdmin = null;
-//					Item tempItem = currentMarketplace.getCurrentInventory().getItemFromInventory(itemID);
-//					
-//					if(element.getUserType().equalsIgnoreCase("Seller")) {
-//						tempSeller = (Seller) element;
-//					} else if (element.getUserType().equalsIgnoreCase("Buyer")) {
-//						tempBuyer = (Buyer) element;
-//					} else if (element.getUserType().equalsIgnoreCase("Administrator")) {
-//						tempAdmin = (Administrator) element;
-//					}
-//
-//					if(tempAdmin == null) {
-//						
-//						if(tempSeller != null || tempSeller.getUserID() == sellerID) {
-//							if(buyerID == null) {
-//								tempSeller.getPostHistory().add(tempItem);
-//							} else {
-//								tempSeller.getSoldHistory().add(tempItem);
-//							}
-//						}
-//
-//						if (tempBuyer != null || tempBuyer.getUserID() == buyerID) {
-//							tempBuyer.getPurchasedHistory().add(itemID);
-//						}
-//					}	
-//				}
-//			}
 			
 			}	
 			

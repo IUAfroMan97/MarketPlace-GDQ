@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Marketplace {
 
 	public ArrayList<Transaction> transList;
@@ -11,10 +13,6 @@ public class Marketplace {
 		transList = new ArrayList<Transaction>();
 		currentUsers = new Users(this);
 		currentInventory = new Inventory(this.getCurrentUsers());
-		
-		
-		
-		test();	
 	}
 
 	public void createUser(String userName, String userPassword, String userType, String userEmail, double userBalance) {
@@ -134,7 +132,7 @@ public class Marketplace {
 		// adding to the seller's sold history and buyers history
 		
 		thisSeller.getSoldHistory().add(thisItem);
-		thisBuyer.getPurchasedHistory().add(thisItem.getItemID());
+		//thisBuyer.getPurchasedHistory().add(thisItem.getItemID());
 		
 		
 		// PUSHING THESE CHANGES TO THE DATABASE
@@ -142,38 +140,7 @@ public class Marketplace {
 //		currentUsers.update(thisSeller);
 //		currentUsers.push(thisBuyer);
 //		currentInventory.push(thisItem);
+		
+		JOptionPane.showMessageDialog(null, "Transaction: " + trans.transID + " completed!");
 	}
-	
-	public void test() {
-		
-		//test if the quantity after being purchased will change in the database
-		//.setItemQuantity works!
-		//this.getCurrentInventory().inventory.get(0).setItemQuantity(11);
-		
-		//test if the balance of a user changes in the database
-		this.getCurrentUsers().getUserWithUserName("jacgood").alterBalance(- 10000);
-		
-		
-		
-		
-	}
-
-	public static void main(String[] args) {
-		
-		Connection con = null;
-		try {
-			con=Database.mycon();
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Marketplace testMarketplace = new Marketplace();
-
-		//Already in the database
-	
-		
-	}
-
-
 }

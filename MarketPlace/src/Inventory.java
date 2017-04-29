@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Inventory {
+	
+	//initial variables
 	public ArrayList<Item> inventory;
 	Users currentUsers;
 
@@ -11,31 +13,24 @@ public class Inventory {
 		inventory = new ArrayList<Item>();
 		this.currentUsers = currentUsers;
 		
-		pull();
+		pull(); //populate inventory arraylist with data from database
 	}
 	
 	public void displayItems() {
+		//displayes the items in the consols... for testing purposes only
 		for(Item element : inventory) {
 			System.out.println(element.toString());
 		}
 	}
 	
 	public boolean isItemIdInList(String itemID) {
+		//compares itemID to the elements in the arraylist
 		for (Item element : inventory) {
 			if (itemID.equalsIgnoreCase(element.getItemID())) {
 				return true;
 			}
 		}
 		return false;
-	}
-	
-	public Item getItemFromInventory(String itemID) {
-		for(Item element : inventory) {
-			if(element.getItemID().equalsIgnoreCase(itemID)) {
-				return element;
-			}
-		}
-		return null;
 	}
 
 	public void push(Item target){
@@ -44,15 +39,14 @@ public class Inventory {
 		
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via the address
 			
-			String query = "DELETE FROM Items WHERE itemID=?";
+			String query = "DELETE FROM Items WHERE itemID=?"; //sql query for database
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, target.getItemID());
 			st.executeUpdate();
 			con.close();
-			
-			
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -64,9 +58,9 @@ public class Inventory {
 
 		Connection con = null;
 		try{
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 
-			String query= "select * from Items";
+			String query= "select * from Items"; //sql query for database
 			PreparedStatement st=con.prepareStatement(query);
 
 			String itemID = "";
@@ -89,6 +83,8 @@ public class Inventory {
 				itemQuantity = rs.getInt(6);
 				itemDescription = rs.getString(7);
 
+				
+				// -----Add the correct seller to the correct Item -------
 				Seller currentSeller = null;
 				for(AbstractUser element : currentUsers.usersList) {
 					if(element.getUserType().equalsIgnoreCase("Seller")) {

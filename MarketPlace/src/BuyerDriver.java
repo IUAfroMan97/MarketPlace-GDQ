@@ -17,6 +17,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 public class BuyerDriver extends JPanel{
+	
+	// used for altering the outer classes in this class
 	BuyerDriver currentSession;
 	private Buyer currentUser;
 	private Marketplace currentMarketplace;
@@ -34,16 +36,12 @@ public class BuyerDriver extends JPanel{
 		
 		// ---------- building the frame around the main pane ----------
 		
-		// where we will keep all the data etc
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		tabbedPane.setBounds(8, 30, 880, 530);
-		this.add(tabbedPane);
 		
 		// displays current username
-		JLabel lblSellID = new JLabel("Current User: " + currentUser.getUserID());
-		lblSellID.setBounds(12, 8, 200, 20);
-		this.add(lblSellID);
+		JLabel lblBuyID = new JLabel("Current User: " + currentUser.getUserID());
+		lblBuyID.setBounds(12, 8, 200, 20);
+		this.add(lblBuyID);
 		
 		
 		JButton btnLogOut = new JButton("Log Out");
@@ -60,13 +58,25 @@ public class BuyerDriver extends JPanel{
 		btnLogOut.setBounds(791, 6, 97, 40);
 		this.add(btnLogOut);
 		
-		
+		// ----------- tabbed pane begins ---------
+		// where we will keep all the data etc
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+
+		tabbedPane.setBounds(8, 30, 880, 530);
+		this.add(tabbedPane);
+
 		// overview tab!
 		JPanel overview = new JPanel();
 		overview.setLayout(null);
 		overview.setSize(860, 530);
 		overview.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.add("Overview", overview);
+		
+		// For the change value buttons!
+		// 1. Pops out a dialog box asking for user to input new value
+		// 2. Saves the value to a temporary string
+		// 3. Calls the outer functions in AbstractUser with temporary String to change value
+		// 4. (Optional) User must log in and out in order to save changes. Can only save one change at a time
 		
 		// user id label
 		JLabel lblUserID = new JLabel("UserID: " + currentUser.getUserID());
@@ -82,12 +92,11 @@ public class BuyerDriver extends JPanel{
 		btnChangeUsername.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 String inputValue = JOptionPane.showInputDialog(btnChangeUsername, "Input new username"); 
-				 System.out.println(inputValue);
+				 
 				 if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserName(inputValue);
 				 }
-				 //revalidate();
-				 //overview.repaint();
+				 
 			}
 		});
 		btnChangeUsername.setBounds(224, 65, 149, 25);
@@ -110,11 +119,11 @@ public class BuyerDriver extends JPanel{
 		btnChangeEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String inputValue = JOptionPane.showInputDialog(btnChangeEmail, "Input new email"); 
-				System.out.println(inputValue);
+				
 				if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserEmail(inputValue);
 				 }
-				//revalidate();
+				
 			}
 		});
 		btnChangeEmail.setBounds(224, 103, 149, 25);
@@ -125,11 +134,11 @@ public class BuyerDriver extends JPanel{
 		btnChangePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String inputValue = JOptionPane.showInputDialog(btnChangePassword, "Input new password"); 
-				System.out.println(inputValue);
+				
 				if (inputValue != null && inputValue != "") {
 					 currentUser.changeUserPassword(inputValue);
 				 }
-				//revalidate();
+				
 			}
 		});
 		btnChangePassword.setBounds(224, 141, 149, 25);

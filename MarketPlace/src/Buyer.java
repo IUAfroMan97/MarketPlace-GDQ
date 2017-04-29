@@ -3,11 +3,8 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class Buyer extends AbstractUser{
-
-	// history of the buyer's transactions
-	private ArrayList<String> purchased;
 	
-	
+	//initial variables
 	private String userName;
 	private String userPassword;
 	private String userEmail;
@@ -18,29 +15,25 @@ public class Buyer extends AbstractUser{
 	public Buyer(String userName, String userPassword, String userEmail, double userBalance){
 
 		super(userName, userPassword, "Buyer", userEmail, userBalance);
-
-		this.purchased = new ArrayList<String>();
 		
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
 		this.userEmail = this.getUserEmail();
 		this.userBalance = this.getUserBalance();
 		
-		push();
+		push(); //sends data to database
 	}
 
 	public Buyer(String userID, String userName, String userPassword, String userEmail, double userBalance) {
 		super(userID, userName, userPassword, "Buyer", userEmail, userBalance);
-		
-		this.purchased = new ArrayList<String>();
 	}
 
 	private void push() {
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to database via address in Database class
 
-			String query="insert into Users values(?,?,?,?,?,?)";
+			String query="insert into Users values(?,?,?,?,?,?)"; //sql query
 			PreparedStatement st=con.prepareStatement(query);
 
 			st.setString(1, this.getUserID());
@@ -59,6 +52,7 @@ public class Buyer extends AbstractUser{
 	}
 	
 	private void update() {
+		//updates the existing data in the database
 		Connection con = null;
 		try {
 			con=Database.mycon();
@@ -79,11 +73,6 @@ public class Buyer extends AbstractUser{
 			e.printStackTrace();
 		}
 	}
-	
-	public ArrayList<String> getPurchasedHistory() {
-		return this.purchased;
-	}
-
 
 	@Override
 	void changeUserName(String newUserName) { 

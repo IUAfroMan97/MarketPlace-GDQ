@@ -20,25 +20,31 @@ import javax.swing.JTextField;
 
 public class LoginPanel extends JPanel{
 
-	
+	// used to affect the greater code
 	CardLayout cl;
 	JPanel card; // this can be used to change the state of the JPanel inside event handlers
 	Marketplace currentMarketplace; 
 	Users currentUsers; // will be used for login and user creation
 	
 	public LoginPanel(Marketplace mk){
+		
+		// we use card layout in this case because every login panel is different, and this will speed up the process
+		// rather than creating a new jpanel every time.
 		super(new CardLayout());
 		
-		card = this;
 		
 		this.setSize(900, 600);
 		this.setVisible(true);
 		
-		cl = (CardLayout)(this.getLayout());
 		this.currentMarketplace = mk;
 		currentUsers = currentMarketplace.getCurrentUsers();
 		
-		// ---------- log in panel ----------
+		// used to alter the current card inside the constructor
+		card = this;
+		cl = (CardLayout)(this.getLayout());
+		
+
+		// ---------- welcome panel ----------
 		
 		JPanel loginPanel = new JPanel();
 		loginPanel.setLayout(null);
@@ -50,6 +56,7 @@ public class LoginPanel extends JPanel{
 		lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblWelcome.setBounds(250, 50, 500, 100);
 		
+		// each of these buttons will take the user to the preferred login panel
 		
 		JButton btnAdmin = new JButton("Log in as Administrator");
 		btnAdmin.addActionListener(new ActionListener() {
@@ -60,7 +67,7 @@ public class LoginPanel extends JPanel{
 		btnAdmin.setBounds(100, 400, 200, 40);
 		loginPanel.add(btnAdmin);
 		
-		JButton btnBuyer = new JButton("Log in as a Customer");
+		JButton btnBuyer = new JButton("Log in as a Buyer");
 		btnBuyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cl.show(card, "buyerlogin");
@@ -69,7 +76,7 @@ public class LoginPanel extends JPanel{
 		btnBuyer.setBounds(350, 400, 200, 40);
 		loginPanel.add(btnBuyer);
 		
-		JButton btnSeller = new JButton("Log in as a Vendor");
+		JButton btnSeller = new JButton("Log in as a Seller");
 		btnSeller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cl.show(card, "sellerlogin");
@@ -82,6 +89,7 @@ public class LoginPanel extends JPanel{
 		btnCreateUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				// throws you over to the user registration panel
 				UserRegistration reg = new UserRegistration(currentMarketplace);
 				
 				
@@ -104,7 +112,7 @@ public class LoginPanel extends JPanel{
 		buyerLogin.setBackground(Color.PINK);
 		buyerLogin.setLayout(null);
 		
-		
+		// buyer log in entry fields
 		
 		JLabel lblBuyerUsername = new JLabel("Username");
 		lblBuyerUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -135,12 +143,19 @@ public class LoginPanel extends JPanel{
                 Buyer buy = null;
                 AbstractUser tempUser;
 
+                // takes username and password
                 String tempUserName = buyerUserField.getText();
                 String tempPW = buyerPasswordField.getText();
 
+                // searches for username in the userlist
                 if(currentUsers.isUserNameInList(tempUserName, currentUsers.usersList)) {
+                	
+                	// if found
+                	// searches in the found index of the user for the correct password
                     if(currentUsers.getUserWithUserName(tempUserName).getUserPassword().equalsIgnoreCase(tempPW)) {
                         tempUser = currentUsers.getUserWithUserName(tempUserName);
+                        
+                        // creates the seller, checks the userType
                         if(tempUser.getUserType().equalsIgnoreCase("Buyer")) {
                             buy = (Buyer) tempUser;
                         } else {
@@ -198,29 +213,16 @@ public class LoginPanel extends JPanel{
 		btnBuyerBack.setBounds(50, 50, 100, 40);
 		buyerLogin.add(btnBuyerBack);
 		
-		JButton btnJacGood = new JButton("jacgood");
-		btnJacGood.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				
-				// also empties the user entry fields
-				buyerUserField.setText("jacgood");
-                buyerPasswordField.setText("12345");
-                
-                
-			}
-		});
-		btnJacGood.setBounds(226, 475, 107, 40);
-		buyerLogin.add(btnJacGood, BorderLayout.WEST);
 		
 		
-		
-		// ---------- seller panels ----------
+		// ---------- seller log in ----------
 		
 		JPanel sellerLogin = new JPanel();
 		this.add(sellerLogin, "sellerlogin");
 		sellerLogin.setLayout(null);
 		sellerLogin.setBackground(SystemColor.activeCaption);
 		
+		// log in entry fields
 		JLabel lblSellUsername = new JLabel("Username");
 		lblSellUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblSellUsername.setBounds(318, 222, 80, 28);
@@ -247,16 +249,25 @@ public class LoginPanel extends JPanel{
 
             	currentUsers.pull();
             	
+            	// creates new seller for logging in and searching
                 Seller sell = null;
                 AbstractUser tempUser;
 
+                // gets temps from the input fields
                 String tempSellUserName = SellUserField.getText();
                 String tempSellPW = SellPasswordField.getText();
 
+                // searches for user of given name
                 if(currentUsers.isUserNameInList(tempSellUserName, currentUsers.usersList)) {
+                	
+                	// checks found user's password
                     if(currentUsers.getUserWithUserName(tempSellUserName).getUserPassword().equalsIgnoreCase(tempSellPW)) {
                         tempUser = currentUsers.getUserWithUserName(tempSellUserName);
+                        
+                        // checks the new user to see if its of the right type
                         if(tempUser.getUserType().equalsIgnoreCase("Seller")) {
+                        	
+                        	// creates new seller to call the sellerdriver class
                             sell = (Seller) tempUser;
                         } else {
                         	// called if user exists, pw exists, just the wrong userType
@@ -314,15 +325,6 @@ public class LoginPanel extends JPanel{
 		btnSellBack.setBounds(50, 50, 100, 40);
 		sellerLogin.add(btnSellBack);
 		
-		JButton btnlukas = new JButton("Lukas");
-		btnlukas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SellUserField.setText("lhamman");
-				SellPasswordField.setText("54321");
-			}
-		});
-		btnlukas.setBounds(226, 475, 107, 40);
-		sellerLogin.add(btnlukas);
 	
 		
 		
@@ -332,7 +334,7 @@ public class LoginPanel extends JPanel{
 		adminLogin.setLayout(null);
 		adminLogin.setBackground(Color.LIGHT_GRAY);
 		
-		
+		// admin login input fields
 		JLabel lblAdminUsername = new JLabel("Username");
 		lblAdminUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblAdminUsername.setBounds(318, 222, 80, 28);
@@ -353,11 +355,13 @@ public class LoginPanel extends JPanel{
 		adminLogin.add(adminPasswordField);
 		adminPasswordField.setColumns(10);
 		
+		// log in button
 		JButton btnAdminEnter = new JButton("Enter");
 		btnAdminEnter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
             	currentUsers.pull();
+            	// updates to most recent userlist
             	
                 Administrator admin = null;
                 AbstractUser tempUser;
@@ -365,9 +369,14 @@ public class LoginPanel extends JPanel{
                 String tempAdminUserName = adminUserField.getText();
                 String tempAdminPW = adminPasswordField.getText();
 
+                // searches for instance with given username
                 if(currentUsers.isUserNameInList(tempAdminUserName, currentUsers.usersList)) {
+                	
+                	// searches found instance to check password
                     if(currentUsers.getUserWithUserName(tempAdminUserName).getUserPassword().equalsIgnoreCase(tempAdminPW)) {
                         tempUser = currentUsers.getUserWithUserName(tempAdminUserName);
+                        
+                        // checks found instance for user type
                         if(tempUser.getUserType().equalsIgnoreCase("Administrator")) {
                             admin = (Administrator) tempUser;
                         } else {
@@ -426,15 +435,7 @@ public class LoginPanel extends JPanel{
 		btnAdminBack.setBounds(50, 50, 100, 40);
 		adminLogin.add(btnAdminBack);
 		
-		JButton btnNdquigle = new JButton("ndquigle");
-		btnNdquigle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				adminUserField.setText("ndquigle");
-				adminPasswordField.setText("56789");
-			}
-		});
-		btnNdquigle.setBounds(226, 475, 107, 40);
-		adminLogin.add(btnNdquigle, BorderLayout.SOUTH);
+		
 		
 		
 

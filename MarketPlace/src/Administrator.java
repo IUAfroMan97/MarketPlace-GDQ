@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Administrator extends AbstractUser{
 	
+	//initial variables
 	private String userName;
 	private String userPassword;
 	private String userEmail;
@@ -20,7 +21,7 @@ public class Administrator extends AbstractUser{
 		this.userEmail = this.getUserEmail();
 		this.userBalance = this.getUserBalance();
 		
-		push();
+		push(); //sends to the database
 		
 	}
 	
@@ -54,11 +55,12 @@ public class Administrator extends AbstractUser{
 	}
 	
 	private void update() {
+		//updates existing data in the database
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the given address
 			
-			String query="UPDATE Users SET userName = ?, userPassword = ?, userEmail = ?, userBalance = ? WHERE userID = ? ";
+			String query="UPDATE Users SET userName = ?, userPassword = ?, userEmail = ?, userBalance = ? WHERE userID = ? "; //sql query for database
 			PreparedStatement st=con.prepareStatement(query);
 			
 			st.setString(1, this.userName);
@@ -75,39 +77,6 @@ public class Administrator extends AbstractUser{
 		}
 	}
 	
-	public ArrayList<String> viewPurchaseHistory(Buyer target){
-		
-		// TODO: 
-		// using the given buyer, call/clone their purchased variable
-
-		return null;
-	}
-
-	public ArrayList<String> viewPostHistory(Seller target){
-
-		// TODO: 
-		// using the given seller, call/clone their postHistory variable
-
-		return null;
-	}
-
-	public ArrayList<String> viewSoldHistory(Seller target){
-
-		// TODO: 
-		// using the given seller, call/clone their soldHistory variable
-
-		return null;
-	}
-	
-	public ArrayList<String> viewTransactionHistory(){
-		
-		// TODO: 
-		// returns transaction history for the entire marketplace
-		
-		return null;
-	}
-	
-	
 	@Override
 	void changeUserName(String newUserName) { 
 		// TODO: change userName
@@ -117,13 +86,6 @@ public class Administrator extends AbstractUser{
 		this.userBalance = this.getUserBalance();
 		update();
 	}
-	
-	void changeUserName(AbstractUser target, String newUserName){
-		// TODO search for instance of the targeted user
-		// change userName for that user
-		
-	}
-
 	
 	@Override
 	void changeUserPassword(String newUserPassword) {
@@ -135,11 +97,6 @@ public class Administrator extends AbstractUser{
 		update();
 	}
 	
-	void changeUserPassword(AbstractUser target, String newUserPassword){
-		// TODO changes targeted user's password
-	}
-
-	
 	@Override
 	void changeUserEmail(String newUserEmail) {
 		// TODO change email
@@ -149,12 +106,7 @@ public class Administrator extends AbstractUser{
 		this.userBalance = this.getUserBalance();
 		update();
 	}
-	
-	void changeUserEmail(AbstractUser target, String newUserEmail){
-		// TODO change targeted user's email
-	}
 
-	
 	@Override
 	void alterBalance(double payment) {
 		// TODO change balance
