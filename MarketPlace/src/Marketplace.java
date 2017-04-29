@@ -9,7 +9,7 @@ public class Marketplace {
 
 	public Marketplace() {
 		transList = new ArrayList<Transaction>();
-		currentUsers = new Users();
+		currentUsers = new Users(this);
 		currentInventory = new Inventory(this.getCurrentUsers());
 		
 		
@@ -134,7 +134,8 @@ public class Marketplace {
 		// adding to the seller's sold history and buyers history
 		
 		thisSeller.getSoldHistory().add(thisItem);
-		thisBuyer.getPurchasedHistory().add(thisItem);
+		thisBuyer.getPurchasedHistory().add(thisItem.getItemID());
+		
 		
 		// PUSHING THESE CHANGES TO THE DATABASE
 		

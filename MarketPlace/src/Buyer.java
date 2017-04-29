@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Buyer extends AbstractUser{
 
 	// history of the buyer's transactions
-	private ArrayList<Item> purchased;
+	private ArrayList<String> purchased;
 	
 	
 	private String userName;
@@ -19,7 +19,7 @@ public class Buyer extends AbstractUser{
 
 		super(userName, userPassword, "Buyer", userEmail, userBalance);
 
-		this.purchased = new ArrayList<Item>();
+		this.purchased = new ArrayList<String>();
 		
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
@@ -32,7 +32,7 @@ public class Buyer extends AbstractUser{
 	public Buyer(String userID, String userName, String userPassword, String userEmail, double userBalance) {
 		super(userID, userName, userPassword, "Buyer", userEmail, userBalance);
 		
-		this.purchased = new ArrayList<Item>();
+		this.purchased = new ArrayList<String>();
 	}
 
 	private void push() {
@@ -51,18 +51,6 @@ public class Buyer extends AbstractUser{
 			st.setDouble(6, this.userBalance);
 			st.executeUpdate();
 			
-			
-			
-			query="INSERT into History values(?,?,?,?,?,)";
-			st=con.prepareStatement(query);
-			
-			st.setString(1, this.historyID);
-			st.setString(2, this.itemID);
-			st.setString(3, this.buyerID);
-			st.setString(4, this.sellerID);
-			st.executeUpdate();
-			
-
 			con.close();
 
 		} catch (Exception e) {
@@ -92,7 +80,7 @@ public class Buyer extends AbstractUser{
 		}
 	}
 	
-	public ArrayList<Item> getPurchasedHistory() {
+	public ArrayList<String> getPurchasedHistory() {
 		return this.purchased;
 	}
 

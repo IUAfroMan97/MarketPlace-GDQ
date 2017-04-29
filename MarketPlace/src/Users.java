@@ -6,11 +6,16 @@ import java.util.ArrayList;
 public class Users {
 
 	public ArrayList<AbstractUser> usersList;
+	public ArrayList<Transaction> transList;
+	private Marketplace currentMarketplace;
 
-	public Users() {
+	public Users(Marketplace mk) {
+		currentMarketplace = mk;
 		usersList = new ArrayList<AbstractUser>();
+		transList = new ArrayList<Transaction>();
 
 		pull(); //refresh the current users in the lists
+		pullTransList();
 	}
 	
 	public boolean isUserIDInList(String userID, ArrayList<AbstractUser> listTarget) {
@@ -57,6 +62,70 @@ public class Users {
 	}
 
 
+	public void pullTransList() {
+		// pulls from database
+		// in turn updates the whole program (?)
+
+		transList.clear(); //always start with an empty list
+
+		Connection con = null;
+		try{
+			con=Database.mycon();
+
+			String query= "select * from History";
+			PreparedStatement st=con.prepareStatement(query);
+
+			String HistoryID="";
+			String itemID="";
+			String sellerID="";
+			String buyerID="";
+			String transactionID="";
+			int itemQuantity=0;
+			String itemShipped="";
+
+
+			st=con.prepareStatement(query);
+			ResultSet rs = st.executeQuery();
+
+			while(rs.next()) {
+				HistoryID = rs.getString(1);
+				itemID = rs.getString(2);
+				sellerID = rs.getString(3);
+				buyerID = rs.getString(4);
+				transactionID = rs.getString(5);
+				itemQuantity = rs.getInt(6);
+				itemShipped = rs.getString(7);
+
+
+				for(AbstractUser element : this.usersList) {
+					Seller tempSeller = null;
+					Buyer tempBuyer = null;
+					Item tempItem = currentMarketplace.getCurrentInventory().getItemFromInventory(itemID);
+					
+					if(element.getUserType().equalsIgnoreCase("Seller")) {
+						 tempSeller = (Seller) element;
+					} else if (element.getUserType().equalsIgnoreCase("Buyer")) {
+						tempBuyer = (Buyer) element;
+					}
+					
+					if(tempSeller.getUserID() == sellerID) {
+						if(buyerID == null) {
+							tempSeller.getPostHistory().add(tempItem);
+						} else {
+							tempSeller.getSoldHistory().add(tempItem);
+						}
+					}
+					
+					if (tempBuyer.getUserID() == buyerID) {
+						tempBuyer.getPurchasedHistory().add(itemID);
+					}
+				}	
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void pull() {
 		// pulls from database
 		// in turn updates the whole program (?)
@@ -103,6 +172,7 @@ public class Users {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void push(AbstractUser target){
 		// pushes info to database

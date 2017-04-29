@@ -28,6 +28,15 @@ public class Inventory {
 		}
 		return false;
 	}
+	
+	public Item getItemFromInventory(String itemID) {
+		for(Item element : inventory) {
+			if(element.getItemID().equalsIgnoreCase(itemID)) {
+				return element;
+			}
+		}
+		return null;
+	}
 
 	public void push(Item target){
 		// TODO
