@@ -13,6 +13,7 @@ import javax.swing.JButton;
 
 public class UserCard extends JPanel{
 
+	// current user and market so it can affect the greater program
 	private AbstractUser currentUser;
 	private Marketplace currentMarketplace;
 
@@ -27,6 +28,8 @@ public class UserCard extends JPanel{
 
 		this.setLayout(null);
 		
+		
+		// JLabels hold the user information
 		JLabel lblUsername = new JLabel("Username: " + currentUser.getUserName());
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUsername.setBounds(12, 13, 250, 16);
@@ -51,6 +54,9 @@ public class UserCard extends JPanel{
 		JLabel lblUserId = new JLabel("User ID: " + currentUser.getUserID());
 		lblUserId.setBounds(274, 14, 300, 16);
 		add(lblUserId);
+		
+		// each button changes the user values
+		// needs to be called from admin viewer refresh in order to change it all
 		
 		JButton btnChangeUsername = new JButton("Change Username");
 		btnChangeUsername.addActionListener(new ActionListener() {
@@ -101,22 +107,9 @@ public class UserCard extends JPanel{
 				Double newBalance = Double.parseDouble(inputValue);
 				 if (inputValue != null && inputValue != "") {
 					 
-					 if(currentUser.getUserType().equalsIgnoreCase("Buyer")){
-						 // the buyer change value defaults to subtracting money. therefore, we need to subtract old from new
-						 // then give this (usually) negative value to the subtraction method to add it
-						 double tempBalance = currentUser.getUserBalance() - newBalance;
-						 currentUser.alterBalance(tempBalance);
-						 						 
-					 }
-					 else{
-						 // these user methods add the value. so new - old will give the value we need to add
-						 double tempBalance = newBalance - currentUser.getUserBalance();
-						 currentUser.alterBalance(tempBalance);
-					 }
+					currentUser.setBalance(newBalance);
 					 
 				 }
-				 //revalidate();
-				 //overview.repaint();
 			}
 		});
 		btnChangeBalance.setBounds(600, 76, 150, 23);

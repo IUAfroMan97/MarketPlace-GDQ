@@ -3,10 +3,6 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class Seller extends AbstractUser {
-
-	// history of the seller's activity
-	private ArrayList<Item> postHistory; 
-	private ArrayList<Item> soldHistory;
 	
 	private String userName;
 	private String userPassword;
@@ -18,8 +14,6 @@ public class Seller extends AbstractUser {
 	
 		super(userName, userPassword, "Seller", userEmail, userBalance);
 		
-		this.postHistory = new ArrayList<Item>();
-		this.soldHistory = new ArrayList<Item>();
 		
 		this.userName = this.getUserName();
 		this.userPassword = this.getUserPassword();
@@ -32,17 +26,15 @@ public class Seller extends AbstractUser {
 	public Seller(String userID, String userName, String userPassword, String userEmail, double userBalance) {
 		super(userID, userName, userPassword, "Seller", userEmail, userBalance);
 		
-		this.postHistory = new ArrayList<Item>();
-		this.soldHistory = new ArrayList<Item>();
 	}
 	
 	private void push(){
 		// pushes information to the database
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 			
-			String query="insert into Users values(?,?,?,?,?,?)";
+			String query="insert into Users values(?,?,?,?,?,?)"; //sql for the database
 			PreparedStatement st=con.prepareStatement(query);
 			
 			st.setString(1, this.getUserID());
@@ -63,8 +55,9 @@ public class Seller extends AbstractUser {
 	private void update() {
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 			
+			//sql query for the database
 			String query="UPDATE Users SET userName = ?, userPassword = ?, userEmail = ?, userBalance = ? WHERE userID = ? ";
 			PreparedStatement st=con.prepareStatement(query);
 			
@@ -80,24 +73,6 @@ public class Seller extends AbstractUser {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	
-	public ArrayList<Item> getPostHistory(){
-		return this.postHistory;
-	}
-	
-	public ArrayList<Item> getSoldHistory(){
-		return this.soldHistory;
-	}
-	
-	
-	private void createItem(){
-		
-		// TODO: 
-		// called with every attribute of an item
-		// issues a call to marketplace to create an item	
-		
 	}
 
 	@Override
@@ -141,6 +116,16 @@ public class Seller extends AbstractUser {
 		this.userEmail = this.getUserEmail();
 		this.userBalance += payment;
 		update();
+	}
+	
+	@Override
+	void setBalance(double amount) {
+		this.userName = this.getUserName();
+		this.userPassword = this.getUserPassword();
+		this.userEmail = this.getUserEmail();
+		this.userBalance = amount;
+		update();
+		
 	}
 }
 	

@@ -46,21 +46,6 @@ public class Marketplace {
 	public void createItem(Seller sellerID, String itemName, String itemCategory, double itemPrice, int itemQuantity, String itemDescription) {
 		//completed Jacob Good
 		Item i = new Item(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
-		
-		// adding the given item to the seller's postHistory
-		for(AbstractUser element : currentUsers.usersList) {
-			if(element.getUserID().equalsIgnoreCase(sellerID.getUserID())) {
-				Seller tempSeller = (Seller) currentUsers.getUserWithUserID(element.getUserID()); 
-				
-				
-				
-				System.out.println(tempSeller.getPostHistory() == null);
-				
-				ArrayList<Item> tempHistory = tempSeller.getPostHistory();
-				
-				tempHistory.add(i);
-			}
-		}
 	}
 	
 	public void deleteItem(String itemID) {
@@ -93,11 +78,12 @@ public class Marketplace {
 	public void beginTransaction(Buyer buyer, String sellerID, Item givenItem, int quantity){
 		//called by itemCard
 		
-		//public Transaction(String buyerID, String sellerID, String itemID, int quantity){
+		
 		String buyerID = buyer.getUserID();
 		
 		Transaction newTrans = new Transaction(givenItem, buyerID, sellerID, quantity, this);
-		System.out.println(newTrans.toString());
+		
+		// creates a new transaction
 		
 	}
 
@@ -125,21 +111,7 @@ public class Marketplace {
 		// now changing item quantity
 		thisItem.setItemQuantity(thisItem.getItemQuantity() - trans.quantity);
 		
-		System.out.println(thisBuyer == null);
-		System.out.println(thisSeller == null);
-		System.out.println(trans.toString());
 		
-		// adding to the seller's sold history and buyers history
-		
-		thisSeller.getSoldHistory().add(thisItem);
-		//thisBuyer.getPurchasedHistory().add(thisItem.getItemID());
-		
-		
-		// PUSHING THESE CHANGES TO THE DATABASE
-		
-//		currentUsers.update(thisSeller);
-//		currentUsers.push(thisBuyer);
-//		currentInventory.push(thisItem);
 		
 		JOptionPane.showMessageDialog(null, "Transaction: " + trans.transID + " completed!");
 	}

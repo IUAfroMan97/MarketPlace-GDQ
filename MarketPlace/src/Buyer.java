@@ -116,4 +116,14 @@ public class Buyer extends AbstractUser{
 		this.userBalance = this.getUserBalance() - payment;
 		update();
 	}
+
+	@Override
+	void setBalance(double amount) {
+		this.userName = this.getUserName();
+		this.userPassword = this.getUserPassword();
+		this.userEmail = this.getUserEmail();
+		this.userBalance = amount;
+		update();
+		
+	}
 }

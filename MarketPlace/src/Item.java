@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class Item {
 
+	//initial variables
 	private String itemName;
 	private final String itemID;
 	private String itemCategory;
@@ -22,7 +23,7 @@ public class Item {
 		this.itemPrice = itemPrice;
 		this.itemQuantity = itemQuantity;
 	
-		push();
+		push(); //send to the database
 	}
 	
 	public Item(String itemID, Seller sellerID, String itemName, String itemCategory, double itemPrice, int itemQuantity, String itemDescription) {
@@ -36,18 +37,20 @@ public class Item {
 	}
 	
 	public String toString() {
+		//displays item as a string
 		return "Item: " + this.itemID + ", " + sellerID + ", " + this.itemName + ", " + this.itemCategory + ", " + this.itemPrice + ", " + this.itemQuantity + ", " + itemDescription;
 	}
 
+	//uniqueID for Item
 	private String generateItemID() {return UUID.randomUUID().toString().substring(0, 6);}
 	
 	public void push(){
 		// TODO give data to the database
 		Connection con = null;
 		try{
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 			
-			String query="insert into Items values(?,?,?,?,?,?,?)";
+			String query="insert into Items values(?,?,?,?,?,?,?)"; //sql query for database
 			PreparedStatement st=con.prepareStatement(query);
 			
 			st.setString(1, this.itemID);
@@ -68,7 +71,7 @@ public class Item {
 	private void update() {
 		Connection con = null;
 		try {
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 			
 			String query="UPDATE Items SET itemPrice = ?, itemQuantity = ?, itemDescription = ? WHERE itemID = ? ";
 			PreparedStatement st=con.prepareStatement(query);

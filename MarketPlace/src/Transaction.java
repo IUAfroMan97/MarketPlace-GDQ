@@ -10,7 +10,9 @@ public class Transaction implements ActionListener{
 	
 	public Item currentItem; // holds a copy of the item here in transaction
 
-	public String historyID;
+	// every value needed to create a transaction
+	
+	public String historyID; // this is to denote each transaction individually
 	public String transID;
 	public String buyerID;
 	public String sellerID;
@@ -23,6 +25,7 @@ public class Transaction implements ActionListener{
 	
 	public Transaction(Item givenItem, String buyerID, String sellerID, int quantity, Marketplace mk){
 		
+		// copies everything from a constructor
 		this.currentItem = givenItem;
 		
 		this.buyerID = buyerID;
@@ -38,16 +41,23 @@ public class Transaction implements ActionListener{
 		transID += sellerID.substring(0, 3);
 		transID += quantity;
 		
+		// starts as not shipped
 		shipped = false;
 		
+		// pushes this transaction to the history database
 		this.push();
 		
+		// 5 second shipping!
+		// after 5 seconds, the transaction is finalized and the buyer gets his item
 		shippingTimer = new Timer(5000, this);
 		shippingTimer.start();
 		
 	}
 	
 	public Transaction(String transID, String itemID, String buyerID, String sellerID, int quantity, String shipped){
+		
+		// creates an instance of transaction to add to the master transaction list
+		
 		this.transID = transID;
 		this.itemID = itemID;
 		this.buyerID = buyerID;
@@ -57,7 +67,7 @@ public class Transaction implements ActionListener{
 	}
 	
 	private void push() {
-		// TODO Auto-generated method stub
+		
 		String tempShipped = "" + this.shipped;
 		
 		Connection con = null;
@@ -106,6 +116,8 @@ public class Transaction implements ActionListener{
 			e.printStackTrace();
 		}
 	}
+	
+	// for testing purposes. unnecessary
 	public String toString(){
 		String result = "";
 		
@@ -119,16 +131,18 @@ public class Transaction implements ActionListener{
 		return result;
 	}
 	
+	// ends the transaction calls the final stuff
 	public void actionPerformed(ActionEvent evt) {
 		
 		shipped = true;
 		
+		// updates the transaction
 		this.update();
 		
-		System.out.println("Shipped: " + shipped);
-		shippingTimer.stop();
 		
-		currentMarketplace.endTransaction(this);
+		shippingTimer.stop(); // only calls the timer once
+		
+		currentMarketplace.endTransaction(this); // ends the transaction
 	}
 
 	

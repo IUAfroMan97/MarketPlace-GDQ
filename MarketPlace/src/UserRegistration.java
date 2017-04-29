@@ -43,6 +43,7 @@ public class UserRegistration extends JPanel{
         btnReturn.setBounds(50, 50, 100, 40);
         add(btnReturn);
         
+        // these fields will be used to call the new user methods
         JLabel lblWelcome = new JLabel("User Registration");
         lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 30));
         lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
@@ -89,6 +90,7 @@ public class UserRegistration extends JPanel{
         add(txtBalance);
         txtBalance.setColumns(10);
         
+        // used to select the user types
         JComboBox typeComboBox = new JComboBox();
         typeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Buyer", "Seller", "Administrator"}));
         typeComboBox.setBounds(435, 322, 116, 22);
@@ -111,7 +113,7 @@ public class UserRegistration extends JPanel{
         		}
         		else{
         			
-        			// create the user, show completion dialog
+        			// create the user, show completion dialog, pushes
         			currentMarketplace.createUser(username, password, userType, email, balance);
         			JOptionPane.showMessageDialog(btnRegister, "You successfully created user " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
         			

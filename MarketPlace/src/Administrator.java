@@ -116,4 +116,10 @@ public class Administrator extends AbstractUser{
 		this.userBalance -= payment;
 		update();
 	}
+
+	@Override
+	void setBalance(double amount) {
+		// TODO Auto-generated method stub
+		
+	}
 }

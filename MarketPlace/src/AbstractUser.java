@@ -57,6 +57,8 @@ abstract class AbstractUser {
 	
 	abstract void alterBalance(double payment);
 	
+	abstract void setBalance(double amount);
+	
 	
 	// get methods
 	

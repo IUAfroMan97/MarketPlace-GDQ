@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Users {
 
+	//initial variables
 	public ArrayList<AbstractUser> usersList;
 	public ArrayList<Transaction> transList;
 	private Marketplace currentMarketplace;
@@ -15,7 +16,7 @@ public class Users {
 		transList = new ArrayList<Transaction>();
 
 		pull(); //refresh the current users in the lists
-		pullTransList();
+		pullTransList(); //refresh the transaction list
 	}
 	
 	public boolean isUserIDInList(String userID, ArrayList<AbstractUser> listTarget) {
@@ -70,10 +71,10 @@ public class Users {
 
 		Connection con = null;
 		try{
-			con=Database.mycon();
+			con=Database.mycon(); //connect to the database via address
 
-			String query= "select * from History";
-			PreparedStatement st=con.prepareStatement(query);
+			String query= "select * from History"; //sql query for database
+			PreparedStatement st=con.prepareStatement(query); 
 
 			String HistoryID="";
 			String itemID="";
@@ -95,19 +96,7 @@ public class Users {
 				transactionID = rs.getString(5);
 				itemQuantity = rs.getInt(6);
 				itemShipped = rs.getString(7);
-				
-				
-				
-				System.out.println(sellerID);
-				System.out.println(buyerID);
-				System.out.println(HistoryID);
-				System.out.println(itemID);
-				System.out.println(transactionID);
-				System.out.println(itemQuantity);
-				System.out.println(itemShipped);
-				
-				//(Item givenItem, String buyerID, String sellerID, int quantity, Marketplace mk)
-				
+					
 				Transaction tempTrans = new Transaction(transactionID,
 						itemID,
 						buyerID,
@@ -131,9 +120,9 @@ public class Users {
 
 		Connection con = null;
 		try{
-			con=Database.mycon();
+			con=Database.mycon(); //connects to the database via address
 
-			String query= "select * from Users";
+			String query= "select * from Users"; //sql query for database
 			PreparedStatement st=con.prepareStatement(query);
 
 			String uniqueID="";
@@ -169,7 +158,6 @@ public class Users {
 			e.printStackTrace();
 		}
 	}
-
 
 	public void push(AbstractUser target){
 		// pushes info to database

@@ -135,7 +135,7 @@ public class InventoryPanel extends JPanel{
 		if (searchBarText == null || searchBarText.isEmpty()) {
 			return currentInventory.inventory;
 		} else {
-			//display based on the name
+			//display based on the name/ or category or item number
 			
 			if (searchBarText.equalsIgnoreCase("Home & Garden") || searchBarText.equalsIgnoreCase("Home and Garden")) {
 				for(Item element : inventory) {

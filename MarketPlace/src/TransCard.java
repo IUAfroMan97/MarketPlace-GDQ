@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 
 public class TransCard extends JPanel{
 	
+	
+	// given transaction and every field for each transaction
 	private Transaction currentTransaction;
 	
 	public String transID;
@@ -33,6 +35,8 @@ public class TransCard extends JPanel{
 		this.itemID = currentTransaction.itemID;
 		this.quantity = currentTransaction.quantity;
 		this.shipped = currentTransaction.shipped;
+		
+		// JLabels hold the item information
 		
 		JLabel lblTransID = new JLabel("Transaction ID: " + transID);
 		lblTransID.setBounds(12, 13, 400, 16);

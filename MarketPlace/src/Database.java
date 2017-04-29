@@ -12,7 +12,7 @@ public class Database {
 
 		Class.forName("com.mysql.jdbc.Driver");
 		//"jdbc:mysql://127.0.0.1:3306/sys", "root" , "root"
-		Connection con=DriverManager.getConnection(hostOnlineDB, userNameOnlineDB, passwordOnlineDB); //connection to database
+		Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "root" , "root"); //connection to database
 
 		if(con!= null) {
 			System.out.println("Connected");
