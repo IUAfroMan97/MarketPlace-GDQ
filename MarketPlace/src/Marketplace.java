@@ -45,7 +45,7 @@ public class Marketplace {
 
 	public void createItem(Seller sellerID, String itemName, String itemCategory, double itemPrice, int itemQuantity, String itemDescription) {
 		//completed Jacob Good
-		Item i = new Item(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
+		new Item(sellerID, itemName, itemCategory, itemPrice, itemQuantity, itemDescription);
 	}
 	
 	public void deleteItem(String itemID) {

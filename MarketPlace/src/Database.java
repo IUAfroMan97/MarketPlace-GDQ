@@ -11,8 +11,7 @@ public class Database {
 		String passwordOnlineDB = "gdq2020"; //password
 
 		Class.forName("com.mysql.jdbc.Driver");
-		//"jdbc:mysql://127.0.0.1:3306/sys", "root" , "root"
-		Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "root" , "root"); //connection to database
+		Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys" ,"root", "root"); //connection to database
 
 		if(con!= null) {
 			System.out.println("Connected");
